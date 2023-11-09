@@ -3,6 +3,7 @@
 #include "token/token.h"
 #include "string_pool/string_pool.h"
 #include <iostream>
+#include <map>
 
 using namespace haard;
 
@@ -38,23 +39,101 @@ void Scanner::read_to_buffer(std::string path) {
 void Scanner::get_token() {
     if (lookahead('#')) {
         skip_comment();
-    } else if (is_alpha()) {
-        get_keyword_or_identifier();
-    } else if (lookahead(' ')) {
-        advance();
     } else if (lookahead('\n')) {
         advance();
+        count_leading_whitespace();
+    } else if (lookahead(' ')) {
+        advance();
+    } else if (is_alpha()) {
+        get_keyword_or_identifier();
+    } else if (is_digit()) {
+        get_number();
     }
 }
 
 void Scanner::get_keyword_or_identifier() {
+    int kind;
+
     start_token();
 
     while (is_alphanum()) {
         advance();
     }
 
-    create_token(0);
+    kind = TK_ID;
+
+    if (value_to_token_kind_map.count(value) > 0) {
+        kind = value_to_token_kind_map.at(value);
+    }
+
+    create_token(kind);
+}
+
+void Scanner::get_number() {
+    int kind = TK_LITERAL_INTEGER;
+
+    start_token();
+
+    if (has_base()) {
+        advance();
+
+        if (lookahead('b')) {
+            advance();
+
+            while (is_binary_digit() || lookahead('_')) {
+                advance();
+            }
+        } else if (lookahead('o')) {
+            advance();
+
+            while (is_octal_digit() || lookahead('_')) {
+                advance();
+            }
+        } else if (lookahead('x')) {
+            advance();
+
+            while (is_hex_digit() || lookahead('_')) {
+                advance();
+            }
+        } else {
+            while (is_octal_digit() || lookahead('_')) {
+                advance();
+            }
+        }
+    } else {
+        while (is_digit() || lookahead('_')) {
+            advance();
+        }
+
+        if (lookahead('.') && !lookahead('.', 1)) {
+            advance();
+            kind = TK_LITERAL_DOUBLE;
+
+            while (is_digit()) {
+                advance();
+            }
+        }
+
+        if (lookahead('e') || lookahead('E')) {
+            kind = TK_LITERAL_DOUBLE;
+            advance();
+
+            if (lookahead('-') || lookahead('+')) {
+                advance();
+            }
+
+            while (is_digit()) {
+                advance();
+            }
+        }
+
+        if (lookahead('f') || lookahead('F')) {
+            advance();
+            kind = TK_LITERAL_FLOAT;
+        }
+    }
+
+    create_token(kind);
 }
 
 void Scanner::skip_comment() {
@@ -63,12 +142,12 @@ void Scanner::skip_comment() {
     }
 }
 
-bool Scanner::has_next() {
-    return idx < buffer.size();
+bool Scanner::has_next(int count) {
+    return idx + count < buffer.size();
 }
 
-bool Scanner::lookahead(char c) {
-    return has_next() && buffer[idx] == c;
+bool Scanner::lookahead(char c, int offset) {
+    return has_next(offset) && buffer[idx + offset] == c;
 }
 
 bool Scanner::is_alpha(int offset) {
@@ -86,6 +165,35 @@ bool Scanner::is_digit(int offset) {
 
 bool Scanner::is_alphanum(int offset) {
     return is_alpha(offset) || is_digit(offset);
+}
+
+bool Scanner::has_base() {
+    bool flag;
+    bool flag2;
+
+    if (!has_next(2)) return false;
+
+    char c1 = buffer[idx + 1];
+    char c0 = buffer[idx];
+
+    flag = c1 == 'o' || c1 == 'b' || c1 == 'x';
+    flag2 = c1 >= '0' && c1 <= '7';
+
+    return c0 == '0' && (flag || flag2);
+}
+
+bool Scanner::is_binary_digit() {
+    return buffer[idx] == '0' || buffer[idx] == '1';
+}
+
+bool Scanner::is_octal_digit() {
+    return buffer[idx] >= '0' && buffer[idx] <= '7';
+}
+
+bool Scanner::is_hex_digit() {
+    return buffer[idx] >= '0' && buffer[idx] <= '9' ||
+           buffer[idx] >= 'a' && buffer[idx] <= 'f' ||
+           buffer[idx] >= 'A' && buffer[idx] <= 'F';
 }
 
 void Scanner::advance() {
@@ -122,6 +230,15 @@ void Scanner::advance_utf8(int counter) {
     }
 
     column++;
+}
+
+void Scanner::count_leading_whitespace() {
+    whitespace_counter = 0;
+
+    while (lookahead(' ')) {
+        advance();
+        whitespace_counter++;
+    }
 }
 
 void Scanner::start_token() {
