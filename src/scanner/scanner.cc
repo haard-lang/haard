@@ -81,20 +81,55 @@ bool Scanner::is_alphanum(int offset) {
 }
 
 void Scanner::advance() {
+    char c = buffer[idx];
+
     if (!has_next()) {
         return;
     }
 
-    if (buffer[idx] == '\n') {
+    if (c == '\n') {
         line++;
         column = 1;
         whitespace_counter = 0;
+        value += c;
+        idx++;
     } else {
-        column++;
-    }
+        if (((c >> 7) & 0x1) == 0) {
+            column++;
+            value += c;
+            idx++;
+        } else if (((c >> 5) & 0x7) == 6) {
+            int counter = 2;
 
-    value += buffer[idx];
-    idx++;
+            while (has_next() && counter > 0) {
+                value += buffer[idx];
+                idx++;
+                --counter;
+            }
+
+            column++;
+        } else if (((c >> 4) & 0xf) == 0xe) {
+            int counter = 3;
+
+            while (has_next() && counter > 0) {
+                value += buffer[idx];
+                idx++;
+                --counter;
+            }
+
+            column++;
+        } else if (((c >> 3) & 0x1f) == 0x1e) {
+            int counter = 4;
+
+            while (has_next() && counter > 0) {
+                value += buffer[idx];
+                idx++;
+                --counter;
+            }
+
+            column++;
+        }
+    }
 }
 
 void Scanner::start_token() {
