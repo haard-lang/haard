@@ -1,3 +1,4 @@
+#include <sstream>
 #include "token/token.h"
 
 using namespace haard;
@@ -14,7 +15,7 @@ int Token::get_line() const {
     return line;
 }
 
-void Token::setLine(int newLine) {
+void Token::set_line(int newLine) {
     line = newLine;
 }
 
@@ -38,6 +39,18 @@ char *Token::get_value() const {
     return value;
 }
 
-void Token::set_value(char *newValue) {
+void Token::set_value(char* newValue) {
     value = newValue;
+}
+
+std::string Token::to_str() {
+    std::stringstream ss;
+
+    ss << "(";
+    ss << get_kind() << ", ";
+    ss << get_value() << ", ";
+    ss << get_line() << ", ";
+    ss << get_column() << ")";
+
+    return ss.str();
 }

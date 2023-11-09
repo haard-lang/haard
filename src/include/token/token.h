@@ -1,6 +1,8 @@
 #ifndef HAARD_TOKEN_H
 #define HAARD_TOKEN_H
 
+#include <string>
+
 namespace haard {
     class Token {
     public:
@@ -8,7 +10,7 @@ namespace haard {
         void set_kind(int newKind);
 
         int get_line() const;
-        void setLine(int newLine);
+        void set_line(int newLine);
 
         int get_column() const;
         void set_column(int newColumn);
@@ -18,6 +20,8 @@ namespace haard {
 
         char* get_value() const;
         void set_value(char *newValue);
+
+        std::string to_str();
 
     private:
         int kind;

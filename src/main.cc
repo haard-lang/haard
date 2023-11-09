@@ -6,9 +6,12 @@
 using namespace haard;
 
 int main(int argc, char** argv) {
-    Token token;
     Scanner sc;
-    sc.read(argv[1]);
+    auto tokens = sc.read(argv[1]);
+
+    for (int i = 0; i < tokens.size(); ++i) {
+        std::cout  << tokens[i].to_str() << "\n";
+    }
 
     return 0;
 }
