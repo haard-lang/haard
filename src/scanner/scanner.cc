@@ -36,7 +36,9 @@ void Scanner::read_to_buffer(std::string path) {
 }
 
 void Scanner::get_token() {
-    if (is_alpha()) {
+    if (lookahead('#')) {
+        skip_comment();
+    } else if (is_alpha()) {
         get_keyword_or_identifier();
     } else if (lookahead(' ')) {
         advance();
@@ -53,6 +55,12 @@ void Scanner::get_keyword_or_identifier() {
     }
 
     create_token(0);
+}
+
+void Scanner::skip_comment() {
+    while (!lookahead('\n')) {
+        advance();
+    }
 }
 
 bool Scanner::has_next() {
@@ -95,41 +103,25 @@ void Scanner::advance() {
         idx++;
     } else {
         if (((c >> 7) & 0x1) == 0) {
-            column++;
-            value += c;
-            idx++;
+            advance_utf8(1);
         } else if (((c >> 5) & 0x7) == 6) {
-            int counter = 2;
-
-            while (has_next() && counter > 0) {
-                value += buffer[idx];
-                idx++;
-                --counter;
-            }
-
-            column++;
+            advance_utf8(2);
         } else if (((c >> 4) & 0xf) == 0xe) {
-            int counter = 3;
-
-            while (has_next() && counter > 0) {
-                value += buffer[idx];
-                idx++;
-                --counter;
-            }
-
-            column++;
+            advance_utf8(3);
         } else if (((c >> 3) & 0x1f) == 0x1e) {
-            int counter = 4;
-
-            while (has_next() && counter > 0) {
-                value += buffer[idx];
-                idx++;
-                --counter;
-            }
-
-            column++;
+            advance_utf8(4);
         }
     }
+}
+
+void Scanner::advance_utf8(int counter) {
+    while (has_next() && counter > 0) {
+        value += buffer[idx];
+        idx++;
+        --counter;
+    }
+
+    column++;
 }
 
 void Scanner::start_token() {

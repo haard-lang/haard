@@ -18,6 +18,7 @@ namespace haard {
 
         void get_token();
         void get_keyword_or_identifier();
+        void skip_comment();
 
         bool has_next();
 
@@ -28,6 +29,7 @@ namespace haard {
         bool is_alphanum(int offset=0);
 
         void advance();
+        void advance_utf8(int counter);
         void start_token();
         void create_token(int kind);
 
