@@ -424,8 +424,8 @@ namespace haard {
         int get_whitespace() const;
         void set_whitespace(int newWhitespace);
 
-        char* get_value() const;
-        void set_value(char *newValue);
+        const char* get_value() const;
+        void set_value(const char* newValue);
 
         std::string to_str();
 
@@ -434,7 +434,7 @@ namespace haard {
         int line;
         int column;
         int whitespace;
-        char* value;
+        const char* value;
     };
 }
 

@@ -19,6 +19,9 @@ namespace haard {
         void get_token();
         void get_keyword_or_identifier();
         void get_number();
+        void get_operator();
+        void get_single_quote_string();
+        void get_double_quote_string();
         void skip_comment();
 
         bool has_next(int count=0);
@@ -28,6 +31,7 @@ namespace haard {
         bool is_alpha(int offset=0);
         bool is_digit(int offset=0);
         bool is_alphanum(int offset=0);
+        bool is_operator();
 
         bool has_base();
         bool is_binary_digit();
@@ -47,6 +51,8 @@ namespace haard {
         int token_line;
         int token_column;
         int whitespace_counter;
+        int template_counter;
+        bool template_flag;
         std::string value;
         std::string buffer;
         std::vector<Token> tokens;

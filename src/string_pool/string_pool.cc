@@ -6,19 +6,15 @@ using namespace haard;
 
 std::set<std::string> string_pool_set;
 
-char* StringPool::get(std::string value) {
+const char* StringPool::get(std::string value) {
     auto v = string_pool_set.insert(value);
 
-    if (v.second) {
-        return (char*) v.first->c_str();
-    }
-
-    return nullptr;
+    return v.first->c_str();
 }
 
 void StringPool::dump() {
-    for (auto it = string_pool_set.begin(); it != string_pool_set.end(); ++it) {
-        std::cout << *it << ", ";
+    for (auto it : string_pool_set) {
+        std::cout << it << ", ";
     }
 
     std::cout << '\n';

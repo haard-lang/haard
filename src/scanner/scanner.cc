@@ -1,9 +1,9 @@
 #include <fstream>
+#include <iostream>
+#include <map>
 #include "scanner/scanner.h"
 #include "token/token.h"
 #include "string_pool/string_pool.h"
-#include <iostream>
-#include <map>
 
 using namespace haard;
 
@@ -44,8 +44,14 @@ void Scanner::get_token() {
         count_leading_whitespace();
     } else if (lookahead(' ')) {
         advance();
+    } else if (lookahead('\"')) {
+        get_double_quote_string();
+    } else if (lookahead('\'')) {
+        get_single_quote_string();
     } else if (is_alpha()) {
         get_keyword_or_identifier();
+    } else if (is_operator()) {
+        get_operator();
     } else if (is_digit()) {
         get_number();
     }
@@ -67,6 +73,7 @@ void Scanner::get_keyword_or_identifier() {
     }
 
     create_token(kind);
+    template_flag = lookahead('<');
 }
 
 void Scanner::get_number() {
@@ -136,6 +143,94 @@ void Scanner::get_number() {
     create_token(kind);
 }
 
+void Scanner::get_operator() {
+    int kind;
+    std::string tmp;
+
+    for (int i = 0; i < 4; ++i) {
+        tmp += buffer[idx + i];
+    }
+
+    if (template_flag || template_counter > 0) {
+        template_flag = false;
+
+        if (tmp[0] == '<') {
+            start_token();
+            advance();
+            create_token(TK_BEGIN_TEMPLATE);
+            template_counter++;
+            return;
+        } else if (tmp[0] == '>') {
+            start_token();
+            advance();
+            create_token(TK_END_TEMPLATE);
+            template_counter--;
+            return;
+        }
+    }
+
+    while (tmp.size() > 0) {
+        if (value_to_token_kind_map.count(tmp) > 0) {
+            kind = value_to_token_kind_map.at(tmp);
+            break;
+        }
+
+        tmp.pop_back();
+    }
+
+    if (tmp.size() > 0) {
+        start_token();
+
+        for (int i = 0; i < tmp.size(); ++i) {
+            advance();
+        }
+
+        create_token(kind);
+    }
+
+    // handle invalid operator
+}
+
+void Scanner::get_single_quote_string() {
+    int steps = 0;
+
+    start_token();
+    advance();
+
+    while (!lookahead('\'')) {
+        if (lookahead('\\')) {
+            advance();
+        }
+
+        advance();
+        steps++;
+    }
+
+    advance();
+
+    if (steps > 1) {
+        create_token(TK_LITERAL_STRING);
+    } else {
+        create_token(TK_LITERAL_CHAR);
+    }
+}
+
+void Scanner::get_double_quote_string() {
+    start_token();
+    advance();
+
+    while (!lookahead('"')) {
+        if (lookahead('\\')) {
+            advance();
+        }
+
+        advance();
+    }
+
+    advance();
+    create_token(TK_LITERAL_STRING);
+}
+
 void Scanner::skip_comment() {
     while (!lookahead('\n')) {
         advance();
@@ -165,6 +260,18 @@ bool Scanner::is_digit(int offset) {
 
 bool Scanner::is_alphanum(int offset) {
     return is_alpha(offset) || is_digit(offset);
+}
+
+bool Scanner::is_operator() {
+    char c = buffer[idx];
+
+    return c == '(' || c == ')' || c == '[' || c == ']'
+        || c == '{' || c == '}' || c == '+' || c == '-'
+        || c == '*' || c == '/' || c == '%' || c == '!'
+        || c == '&' || c == '|' || c == '~' || c ==  '='
+        || c == '>' || c == '<' || c == '^' || c == '.'
+        || c == '$' || c == ':' || c == '?' || c == '@'
+        || c == ',' || c == ';';
 }
 
 bool Scanner::has_base() {
@@ -251,7 +358,14 @@ void Scanner::create_token(int kind) {
     Token token;
 
     token.set_kind(kind);
+
     token.set_value(StringPool::get(value));
+    if (kind == TK_ID) {
+        std::cout << "value = '" << token.get_value() << "'\n";
+        StringPool::dump();
+        std::cout << "\n\n";
+    }
+
     token.set_line(token_line);
     token.set_column(token_column);
     token.set_whitespace(whitespace_counter);

@@ -6,7 +6,7 @@
 namespace haard {
     class StringPool {
     public:
-        static char* get(std::string value);
+        static const char* get(std::string value);
         static void dump();
     };
 }

@@ -35,11 +35,11 @@ void Token::set_whitespace(int newWhitespace) {
     whitespace = newWhitespace;
 }
 
-char *Token::get_value() const {
+const char* Token::get_value() const {
     return value;
 }
 
-void Token::set_value(char* newValue) {
+void Token::set_value(const char* newValue) {
     value = newValue;
 }
 
