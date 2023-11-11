@@ -50,7 +50,8 @@ std::string Token::to_str() {
     ss << token_kind_to_str_map.at(get_kind()) << ", ";
     ss << get_value() << ", ";
     ss << get_line() << ", ";
-    ss << get_column() << ")";
+    ss << get_column() << ", ";
+    ss << get_whitespace() << ")";
 
     return ss.str();
 }

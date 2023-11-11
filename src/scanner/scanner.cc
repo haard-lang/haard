@@ -148,7 +148,9 @@ void Scanner::get_operator() {
     std::string tmp;
 
     for (int i = 0; i < 4; ++i) {
-        tmp += buffer[idx + i];
+        if (has_next(i)) {
+            tmp += buffer[idx + i];
+        }
     }
 
     if (template_flag || template_counter > 0) {
@@ -358,14 +360,7 @@ void Scanner::create_token(int kind) {
     Token token;
 
     token.set_kind(kind);
-
     token.set_value(StringPool::get(value));
-    if (kind == TK_ID) {
-        std::cout << "value = '" << token.get_value() << "'\n";
-        StringPool::dump();
-        std::cout << "\n\n";
-    }
-
     token.set_line(token_line);
     token.set_column(token_column);
     token.set_whitespace(whitespace_counter);
