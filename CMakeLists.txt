@@ -17,10 +17,15 @@ set(SCANNER_SRC
     src/scanner/scanner.cc
 )
 
+set(PARSER_SRC
+    src/parser/parser.cc
+)
+
 set(SOURCES
     ${STRING_POOL_SRC}
     ${TOKEN_SRC}
     ${SCANNER_SRC}
+    ${PARSER_SRC}
     src/main.cc
 )
 

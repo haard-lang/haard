@@ -1,17 +1,19 @@
 #include <iostream>
 #include "token/token.h"
 #include "scanner/scanner.h"
+#include "parser/parser.h"
 #include "string_pool/string_pool.h"
 
 using namespace haard;
 
-int main(int argc, char** argv) {
-    Scanner sc;
-    auto tokens = sc.read(argv[1]);
+void test_parser(int argc, char** argv) {
+    Parser p;
 
-    for (int i = 0; i < tokens.size(); ++i) {
-        std::cout  << tokens[i].to_str() << "\n";
-    }
+    p.read(argv[1]);
+}
+
+int main(int argc, char** argv) {
+    test_parser(argc, argv);
 
     return 0;
 }
