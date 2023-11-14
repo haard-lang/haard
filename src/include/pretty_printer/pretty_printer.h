@@ -19,6 +19,11 @@ namespace haard {
         void print_function_parameters(Function* function);
 
         void print_type(Type* type);
+        void print_subtyped_type(SubtypedType* type);
+        void print_named_type(NamedType* type);
+
+
+        void print_identifier(Identifier* id);
 
     private:
         void indent();

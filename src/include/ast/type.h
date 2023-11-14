@@ -7,6 +7,10 @@
 namespace haard {
     class Type : public AstNode {
     public:
+        Type();
+        virtual ~Type();
+
+    public:
         Type(int kind, const Token& token);
 
     private:

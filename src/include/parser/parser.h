@@ -24,6 +24,8 @@ namespace haard {
 
         Type* parse_type();
 
+        Identifier* parse_identifier();
+
     private:
         void advance();
         bool lookahead(int kind, int offset=0);

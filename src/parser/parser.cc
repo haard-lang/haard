@@ -158,9 +158,69 @@ Type* Parser::parse_type() {
        type = new Type(AST_F32, matched);
     } else if (match(TK_F64)) {
        type = new Type(AST_F64, matched);
+    } else if (match(TK_LEFT_SQUARE_BRACKET)) {
+        type = parse_type();
+
+        if (type == nullptr) {
+            assert(false && "no type");
+        } else {
+            type = new SubtypedType(AST_LIST, type);
+        }
+
+        expect(TK_RIGHT_SQUARE_BRACKET);
+    } else if (lookahead(TK_ID) || lookahead(TK_SCOPE)) {
+        type = new NamedType(parse_identifier());
+    }
+
+    while (type != nullptr) {
+        if (match(TK_TIMES)) {
+            type = new SubtypedType(AST_POINTER, type);
+        } else if (match(TK_POWER)) {
+            type = new SubtypedType(AST_POINTER, type);
+            type = new SubtypedType(AST_POINTER, type);
+        } else if (match(TK_BITWISE_AND)) {
+            type = new SubtypedType(AST_REFERENCE, type);
+        } else if (match(TK_LOGICAL_AND)) {
+            type = new SubtypedType(AST_REFERENCE, type);
+            type = new SubtypedType(AST_REFERENCE, type);
+        } else if (match(TK_LEFT_SQUARE_BRACKET)) {
+            /*type = new SubtypedType(AST_ARRAY, type);
+            expect(TK_RIGHT_SQUARE_BRACKET);*/
+        } else {
+            break;
+        }
     }
 
     return type;
+}
+
+Identifier* Parser::parse_identifier() {
+    Token name;
+    Token alias;
+    bool alias_flag = false;
+    bool global_flag = false;
+    Identifier* id = nullptr;
+
+    if (match(TK_SCOPE)) {
+        expect(TK_ID);
+        name = matched;
+        global_flag = true;
+    } else if (match(TK_ID)) {
+        if (lookahead(TK_SCOPE)) {
+            alias = matched;
+            expect(TK_SCOPE);
+            expect(TK_ID);
+            name = matched;
+            alias_flag = true;
+        } else {
+            name = matched;
+        }
+    } else {
+        assert(false && "invalid id");
+    }
+
+    id = new Identifier(alias, name, alias_flag, global_flag);
+    return id;
 }
 
 void Parser::advance() {

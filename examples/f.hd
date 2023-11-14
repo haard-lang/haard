@@ -32,3 +32,15 @@ def foo : int
     @a : bool
     @a : f32
     @a : f64
+    @b : int*
+    @c : int***
+    @c : int&&
+    @c : [int]
+    @d : [int&]
+    @e : [[int**]]
+    @n : String
+    @n : foo::Point
+    @n : ::Point
+ #   @n : Pair<int, float>
+ #   @n : foo::Pair<int>
+

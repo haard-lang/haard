@@ -180,7 +180,54 @@ void PrettyPrinter::print_type(Type* type) {
     case AST_BOOL:
         out << "bool";
         break;
+
+    case AST_POINTER:
+    case AST_REFERENCE:
+    case AST_LIST:
+        print_subtyped_type((SubtypedType*) type);
+        break;
+
+    case AST_NAMED:
+        print_named_type((NamedType*) type);
+        break;
     }
+}
+
+void PrettyPrinter::print_subtyped_type(SubtypedType* type) {
+    int kind = type->get_kind();
+
+    switch (kind) {
+    case AST_POINTER:
+        print_type(type->get_subtype());
+        out << '*';
+        break;
+
+    case AST_REFERENCE:
+        print_type(type->get_subtype());
+        out << '&';
+        break;
+
+    case AST_LIST:
+        out << '[';
+        print_type(type->get_subtype());
+        out << ']';
+        break;
+    }
+}
+
+void PrettyPrinter::print_named_type(NamedType* type) {
+    print_identifier(type->get_identifier());
+}
+
+void PrettyPrinter::print_identifier(Identifier* id) {
+    if (id->has_global_alias()) {
+        out << "::";
+    } else if (id->has_alias()) {
+        out << id->get_alias().get_value();
+        out << "::";
+    }
+
+    out << id->get_name().get_value();
 }
 
 void PrettyPrinter::indent() {

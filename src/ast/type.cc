@@ -6,6 +6,14 @@ using namespace haard;
 
 TypePool type_pool;
 
+Type::Type() {
+    type_pool.add_type(this);
+}
+
+Type::~Type() {
+
+}
+
 Type::Type(int kind, const Token& token) {
     set_kind(kind);
     this->token = token;

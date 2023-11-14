@@ -6,6 +6,7 @@ namespace haard {
         AST_MODULE,
         AST_FUNCTION,
         AST_IMPORT,
+        AST_ID,
 
         AST_BOOL,
         AST_CHAR,
@@ -30,7 +31,12 @@ namespace haard {
         AST_F64,
         AST_SYMBOL,
         AST_VOID,
+        AST_POINTER,
+        AST_REFERENCE,
+        AST_LIST,
+        AST_ARRAY,
         AST_STR,
+        AST_NAMED,
     } AstKind;
 
     class AstNode {

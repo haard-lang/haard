@@ -6,5 +6,9 @@
 #include "ast/function.h"
 
 #include "ast/type.h"
+#include "ast/subtyped_type.h"
+#include "ast/named_type.h"
+
+#include "ast/identifier.h"
 
 #endif
