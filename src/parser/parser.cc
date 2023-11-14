@@ -173,17 +173,17 @@ Type* Parser::parse_type() {
     }
 
     while (type != nullptr) {
-        if (match(TK_TIMES)) {
+        if (next_token_on_same_line() && match(TK_TIMES)) {
             type = new SubtypedType(AST_POINTER, type);
-        } else if (match(TK_POWER)) {
+        } else if (next_token_on_same_line() && match(TK_POWER)) {
             type = new SubtypedType(AST_POINTER, type);
             type = new SubtypedType(AST_POINTER, type);
-        } else if (match(TK_BITWISE_AND)) {
+        } else if (next_token_on_same_line() && match(TK_BITWISE_AND)) {
             type = new SubtypedType(AST_REFERENCE, type);
-        } else if (match(TK_LOGICAL_AND)) {
+        } else if (next_token_on_same_line() && match(TK_LOGICAL_AND)) {
             type = new SubtypedType(AST_REFERENCE, type);
             type = new SubtypedType(AST_REFERENCE, type);
-        } else if (match(TK_LEFT_SQUARE_BRACKET)) {
+        } else if (next_token_on_same_line() && match(TK_LEFT_SQUARE_BRACKET)) {
             /*type = new SubtypedType(AST_ARRAY, type);
             expect(TK_RIGHT_SQUARE_BRACKET);*/
         } else {
@@ -200,6 +200,7 @@ Identifier* Parser::parse_identifier() {
     bool alias_flag = false;
     bool global_flag = false;
     Identifier* id = nullptr;
+    Generics* generics = nullptr;
 
     if (match(TK_SCOPE)) {
         expect(TK_ID);
@@ -219,7 +220,21 @@ Identifier* Parser::parse_identifier() {
         assert(false && "invalid id");
     }
 
-    id = new Identifier(alias, name, alias_flag, global_flag);
+    if (match(TK_BEGIN_TEMPLATE)) {
+        generics = new Generics();
+
+        Type* type = parse_type();
+        generics->add_type(type);
+
+        while (match(TK_COMMA)) {
+            type = parse_type();
+            generics->add_type(type);
+        }
+
+        expect(TK_END_TEMPLATE);
+    }
+
+    id = new Identifier(alias, name, alias_flag, global_flag, generics);
     return id;
 }
 
@@ -247,12 +262,32 @@ bool Parser::match(int kind) {
     return false;
 }
 
+bool Parser::match() {
+    matched = tokens[idx];
+    advance();
+
+    return true;
+}
+
 bool Parser::expect(int kind) {
     if (match(kind)) {
         return true;
     }
 
+    match();
+
+    std::cout << "Expected a " << token_kind_to_str_map.at(kind)
+              << " but got a " << token_kind_to_str_map.at(matched.get_kind())
+              << std::endl;
+
+    for (auto tk : tokens) {
+        std::cout << tk.to_str() << '\n';
+    }
     assert(false && "expected token");
+}
+
+bool Parser::has_next(int offset) {
+    return idx + offset < tokens.size();
 }
 
 void Parser::indent() {
@@ -266,3 +301,12 @@ void Parser::dedent() {
 bool Parser::has_parameters() {
     return lookahead(TK_AT) && lookahead(TK_ID, 1) && lookahead(TK_COLON, 2);
 }
+
+bool Parser::next_token_on_same_line() {
+    if (has_next()) {
+        return matched.get_line() == tokens[idx].get_line();
+    }
+
+    return false;
+}
+

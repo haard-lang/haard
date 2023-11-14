@@ -41,6 +41,6 @@ def foo : int
     @n : String
     @n : foo::Point
     @n : ::Point
- #   @n : Pair<int, float>
- #   @n : foo::Pair<int>
+    @n : Pair<int, float, int**, Pair<int, int> >
+    @n : foo::Pair<int>
 

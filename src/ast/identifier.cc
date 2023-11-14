@@ -8,12 +8,17 @@ Identifier::Identifier() {
     global_alias_flag = false;
 }
 
-Identifier::Identifier(Token &alias, Token &name, bool alias_flag, bool global_flag) {
+Identifier::Identifier(Token &alias, Token &name, bool alias_flag, bool global_flag, Generics* generics) {
     set_kind(AST_ID);
     set_name(name);
     set_alias(alias);
+    set_generics(generics);
     this->alias_flag = alias_flag;
     this->global_alias_flag = global_flag;
+}
+
+Identifier::~Identifier() {
+    delete generics;
 }
 
 const Token& Identifier::get_name() const {
@@ -40,4 +45,12 @@ bool Identifier::has_global_alias() {
 
 bool Identifier::has_alias() {
     return alias_flag;
+}
+
+Generics* Identifier::get_generics() const {
+    return generics;
+}
+
+void Identifier::set_generics(Generics* newGenerics) {
+    generics = newGenerics;
 }

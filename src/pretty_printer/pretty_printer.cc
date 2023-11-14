@@ -228,6 +228,22 @@ void PrettyPrinter::print_identifier(Identifier* id) {
     }
 
     out << id->get_name().get_value();
+    print_generics(id->get_generics());
+}
+
+void PrettyPrinter::print_generics(Generics* g) {
+    int i;
+
+    if (g == nullptr) return;
+
+    out << '<';
+    for (i = 0; i < g->types_count() - 1; ++i) {
+        print_type(g->get_type(i));
+        out << ", ";
+    }
+
+    print_type(g->get_type(i));
+    out << ">";
 }
 
 void PrettyPrinter::indent() {

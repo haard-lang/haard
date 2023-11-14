@@ -24,6 +24,7 @@ namespace haard {
 
 
         void print_identifier(Identifier* id);
+        void print_generics(Generics* g);
 
     private:
         void indent();
