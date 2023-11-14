@@ -12,6 +12,10 @@ Scanner::Scanner() {
     column = 1;
     idx = 0;
     whitespace_counter = 0;
+    token_line = 0;
+    token_column = 0;
+    template_counter = 0;
+    template_flag = false;
 }
 
 std::vector<Token> Scanner::read(std::string path) {

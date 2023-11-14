@@ -7,6 +7,16 @@
 
 using namespace haard;
 
+void test_scanner(int argc, char** argv) {
+    Scanner sc;
+
+    auto tks = sc.read(argv[1]);
+
+    for (auto tk : tks) {
+        std::cout << tk.to_str() << '\n';
+    }
+}
+
 void test_parser(int argc, char** argv) {
     Parser p;
 
@@ -26,6 +36,7 @@ void test_pretty_printer(int argc, char** argv) {
 }
 
 int main(int argc, char** argv) {
+    //test_scanner(argc, argv);
     test_pretty_printer(argc, argv);
 
     return 0;
