@@ -13,6 +13,11 @@ set(TOKEN_SRC
     src/token/token.cc
 )
 
+set(AST_SRC
+    src/ast/module.cc
+    src/ast/import.cc
+)
+
 set(SCANNER_SRC
     src/scanner/scanner.cc
 )
@@ -24,6 +29,7 @@ set(PARSER_SRC
 set(SOURCES
     ${STRING_POOL_SRC}
     ${TOKEN_SRC}
+    ${AST_SRC}
     ${SCANNER_SRC}
     ${PARSER_SRC}
     src/main.cc

@@ -9,11 +9,26 @@
 namespace haard {
     class Parser {
     public:
+        Parser();
+
+    public:
         Module* read(std::string path);
+
+    public:
+        Module* parse_module();
+        Import* parse_import();
+
+    private:
+        void advance();
+        bool lookahead(int kind);
+        bool match(int kind);
+        bool expect(int kind);
 
     private:
         Module* module;
         std::vector<Token> tokens;
+        Token matched;
+        int idx;
     };
 }
 

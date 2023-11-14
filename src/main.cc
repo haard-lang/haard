@@ -9,7 +9,8 @@ using namespace haard;
 void test_parser(int argc, char** argv) {
     Parser p;
 
-    p.read(argv[1]);
+    auto m = p.read(argv[1]);
+    delete m;
 }
 
 int main(int argc, char** argv) {
