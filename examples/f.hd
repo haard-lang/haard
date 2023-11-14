@@ -1,6 +1,6 @@
-def sum : int
+def sum : float
     @a : int
-    @b : int
+    @b : float
 
 def say_hello : int
 
@@ -10,4 +10,25 @@ def main : int
 import std.io
 
 def foo : int
+    @a : i8
+    @a : u8
+    @a : i16
+    @a : u16
+    @a : i32
+    @a : u32
+    @a : i64
+    @a : u64
+    @a : float
+    @a : double
+    @a : char
+    @a : uchar
     @a : int
+    @a : uint
+    @a : short
+    @a : ushort
+    @a : void
+    @a : sym
+    @a : str
+    @a : bool
+    @a : f32
+    @a : f64

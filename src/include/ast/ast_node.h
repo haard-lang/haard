@@ -5,7 +5,32 @@ namespace haard {
     typedef enum AstKind {
         AST_MODULE,
         AST_FUNCTION,
-        AST_IMPORT
+        AST_IMPORT,
+
+        AST_BOOL,
+        AST_CHAR,
+        AST_UCHAR,
+        AST_SHORT,
+        AST_USHORT,
+        AST_INT,
+        AST_UINT,
+        AST_LONG,
+        AST_ULONG,
+        AST_FLOAT,
+        AST_DOUBLE,
+        AST_I8,
+        AST_U8,
+        AST_I16,
+        AST_U16,
+        AST_I32,
+        AST_U32,
+        AST_I64,
+        AST_U64,
+        AST_F32,
+        AST_F64,
+        AST_SYMBOL,
+        AST_VOID,
+        AST_STR,
     } AstKind;
 
     class AstNode {

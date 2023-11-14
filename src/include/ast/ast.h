@@ -5,4 +5,6 @@
 #include "ast/import.h"
 #include "ast/function.h"
 
+#include "ast/type.h"
+
 #endif

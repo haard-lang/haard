@@ -18,8 +18,11 @@ namespace haard {
     public:
         Module* parse_module();
         Import* parse_import();
+
         Function* parse_function();
         void parse_parameters(Function* function);
+
+        Type* parse_type();
 
     private:
         void advance();

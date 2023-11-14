@@ -9,6 +9,10 @@ set(STRING_POOL_SRC
     src/string_pool/string_pool.cc
 )
 
+set(TYPE_POOL_SRC
+    src/type_pool/type_pool.cc
+)
+
 set(TOKEN_SRC
     src/token/token.cc
 )
@@ -19,6 +23,8 @@ set(AST_SRC
     src/ast/module.cc
     src/ast/import.cc
     src/ast/function.cc
+    src/ast/variable.cc
+    src/ast/type.cc
 )
 
 set(SCANNER_SRC
@@ -35,6 +41,7 @@ set(PRETTY_PRINTER_SRC
 
 set(SOURCES
     ${STRING_POOL_SRC}
+    ${TYPE_POOL_SRC}
     ${TOKEN_SRC}
     ${AST_SRC}
     ${SCANNER_SRC}
