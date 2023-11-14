@@ -1,0 +1,13 @@
+def sum : int
+    @a : int
+    @b : int
+
+def say_hello : int
+
+def main : int
+
+
+import std.io
+
+def foo : int
+    @a : int

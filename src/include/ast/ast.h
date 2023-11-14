@@ -3,5 +3,6 @@
 
 #include "ast/module.h"
 #include "ast/import.h"
+#include "ast/function.h"
 
 #endif

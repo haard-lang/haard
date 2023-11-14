@@ -14,8 +14,11 @@ set(TOKEN_SRC
 )
 
 set(AST_SRC
+    src/ast/ast_node.cc
+    src/ast/declaration.cc
     src/ast/module.cc
     src/ast/import.cc
+    src/ast/function.cc
 )
 
 set(SCANNER_SRC
@@ -26,12 +29,17 @@ set(PARSER_SRC
     src/parser/parser.cc
 )
 
+set(PRETTY_PRINTER_SRC
+    src/pretty_printer/pretty_printer.cc
+)
+
 set(SOURCES
     ${STRING_POOL_SRC}
     ${TOKEN_SRC}
     ${AST_SRC}
     ${SCANNER_SRC}
     ${PARSER_SRC}
+    ${PRETTY_PRINTER_SRC}
     src/main.cc
 )
 
