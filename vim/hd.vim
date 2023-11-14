@@ -187,7 +187,7 @@ if !exists("HD_no_builtin_highlight")
   syn keyword HDBuiltin	true false null
   syn keyword HDBuiltin	NotImplemented Ellipsis __debug__
   " built-in functions
-  syn keyword HDBuiltin i8 i16 i32 i64 u8 u16 u32 u64 
+  syn keyword HDBuiltin i8 i16 i32 i64 u8 u16 u32 u64 f32 f64
   syn keyword HDBuiltin void bool char uchar short ushort int uint long ulong float double sym str
   " HD 2 only
   " avoid highlighting attributes as builtins
