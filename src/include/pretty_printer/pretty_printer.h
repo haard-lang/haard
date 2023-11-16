@@ -20,11 +20,13 @@ namespace haard {
 
         void print_type(Type* type);
         void print_subtyped_type(SubtypedType* type);
+        void print_tuple_type(TypeList* tuple);
+        void print_function_type(TypeList* type);
         void print_named_type(NamedType* type);
-
+        void print_type_list(TypeList* tlist, const char* begin, const char* end, bool last=false);
 
         void print_identifier(Identifier* id);
-        void print_generics(Generics* g);
+        void print_generics(TypeList* g);
 
     private:
         void indent();

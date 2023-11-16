@@ -27,7 +27,7 @@ set(AST_SRC
     src/ast/type.cc
     src/ast/subtyped_type.cc
     src/ast/named_type.cc
-    src/ast/generics.cc
+    src/ast/type_list.cc
     src/ast/identifier.cc
 )
 

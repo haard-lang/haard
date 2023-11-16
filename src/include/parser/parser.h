@@ -23,10 +23,14 @@ namespace haard {
         void parse_parameters(Function* function);
 
         Type* parse_type();
+        Type* parse_function_type();
+        Type* parse_tuple_type();
+        Type* parse_primary_type();
 
         Identifier* parse_identifier();
 
-        Generics* parse_generics();
+        TypeList* parse_generics();
+        TypeList* parse_type_list(int kind);
 
     private:
         void advance();

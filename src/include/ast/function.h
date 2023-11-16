@@ -5,7 +5,7 @@
 #include "ast/declaration.h"
 #include "ast/variable.h"
 #include "ast/type.h"
-#include "ast/generics.h"
+#include "ast/type_list.h"
 
 namespace haard {
     class Function : public Declaration {
@@ -20,12 +20,12 @@ namespace haard {
         Type* get_return_type() const;
         void set_return_type(Type *newReturn_type);
 
-        Generics *get_generics() const;
-        void set_generics(Generics *newGenerics);
+        TypeList *get_generics() const;
+        void set_generics(TypeList *newGenerics);
 
     private:
         Type* return_type;
-        Generics* generics;
+        TypeList* generics;
         std::vector<Variable*> parameters;
     };
 }

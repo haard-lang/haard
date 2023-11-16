@@ -109,6 +109,41 @@ void Parser::parse_parameters(Function* function) {
 }
 
 Type* Parser::parse_type() {
+    return parse_function_type();
+}
+
+Type* Parser::parse_function_type() {
+    Type* type = parse_tuple_type();
+
+    if (type->get_kind() == AST_TUPLE_TYPE) {
+        TypeList* tlist = (TypeList*) type;
+
+        if (match(TK_ARROW)) {
+            tlist->add_type(parse_type());
+            tlist->set_kind(AST_FUNCTION_TYPE);
+        }
+
+        type = tlist;
+    }
+
+    return type;
+}
+
+Type* Parser::parse_tuple_type() {
+    TypeList* tuple;
+
+    if (!lookahead(TK_LEFT_PARENTHESIS)) {
+        return parse_primary_type();
+    }
+
+    expect(TK_LEFT_PARENTHESIS);
+    tuple = parse_type_list(AST_TUPLE_TYPE);
+    expect(TK_RIGHT_PARENTHESIS);
+
+    return tuple;
+}
+
+Type* Parser::parse_primary_type() {
     Type* type = nullptr;
 
     if (match(TK_INT)) {
@@ -201,7 +236,7 @@ Identifier* Parser::parse_identifier() {
     bool alias_flag = false;
     bool global_flag = false;
     Identifier* id = nullptr;
-    Generics* generics = nullptr;
+    TypeList* generics = nullptr;
 
     if (match(TK_SCOPE)) {
         expect(TK_ID);
@@ -227,33 +262,38 @@ Identifier* Parser::parse_identifier() {
     return id;
 }
 
-Generics *Parser::parse_generics() {
-    Generics* generics = nullptr;
+TypeList* Parser::parse_generics() {
+    TypeList* generics = nullptr;
 
     if (match(TK_BEGIN_TEMPLATE)) {
-        generics = new Generics();
-        Type* type = parse_type();
+        generics = parse_type_list(AST_GENERICS);
+        expect(TK_END_TEMPLATE);
+    }
+
+    return generics;
+}
+
+TypeList* Parser::parse_type_list(int kind) {
+    TypeList* type_list = new TypeList(kind);
+    Type* type = parse_type();
+
+    if (type == nullptr) {
+        assert(false && "type can't be null on function generics");
+    }
+
+    type_list->add_type(type);
+
+    while (match(TK_COMMA)) {
+        type = parse_type();
 
         if (type == nullptr) {
             assert(false && "type can't be null on function generics");
         }
 
-        generics->add_type(type);
-
-        while (match(TK_COMMA)) {
-            type = parse_type();
-
-            if (type == nullptr) {
-                assert(false && "type can't be null on function generics");
-            }
-
-            generics->add_type(type);
-        }
-
-        expect(TK_END_TEMPLATE);
+        type_list->add_type(type);
     }
 
-    return generics;
+    return type_list;
 }
 
 void Parser::advance() {

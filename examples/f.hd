@@ -43,4 +43,6 @@ def foo<T, K> : int
     @n : ::Point
     @n : Pair<int, float, int**, Pair<int, int> >
     @n : foo::Pair<int>
-
+    @n : (int, str, double, Vector<my_mod::Foo>, (int, bool))
+    @n : (int, int) -> int
+    @n : (int) -> int

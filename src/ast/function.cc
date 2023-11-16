@@ -12,8 +12,6 @@ Function::~Function() {
     for (auto v : parameters) {
         delete v;
     }
-
-    delete generics;
 }
 
 void Function::add_parameter(Variable* param) {
@@ -36,10 +34,10 @@ void Function::set_return_type(Type* newReturn_type) {
     return_type = newReturn_type;
 }
 
-Generics* Function::get_generics() const {
+TypeList* Function::get_generics() const {
     return generics;
 }
 
-void Function::set_generics(Generics* newGenerics) {
+void Function::set_generics(TypeList* newGenerics) {
     generics = newGenerics;
 }

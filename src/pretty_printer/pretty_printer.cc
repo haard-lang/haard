@@ -1,3 +1,4 @@
+#include <cassert>
 #include "pretty_printer/pretty_printer.h"
 
 using namespace haard;
@@ -189,6 +190,14 @@ void PrettyPrinter::print_type(Type* type) {
         print_subtyped_type((SubtypedType*) type);
         break;
 
+    case AST_TUPLE_TYPE:
+        print_tuple_type((TypeList*) type);
+        break;
+
+    case AST_FUNCTION_TYPE:
+        print_function_type((TypeList*) type);
+        break;
+
     case AST_NAMED:
         print_named_type((NamedType*) type);
         break;
@@ -217,8 +226,41 @@ void PrettyPrinter::print_subtyped_type(SubtypedType* type) {
     }
 }
 
+void PrettyPrinter::print_tuple_type(TypeList* tuple) {
+    print_type_list(tuple, "(", ")");
+}
+
+void PrettyPrinter::print_function_type(TypeList* type) {
+    print_type_list(type, "(", ")", true);
+    out << " -> ";
+    print_type(type->get_type(type->types_count() - 1));
+}
+
 void PrettyPrinter::print_named_type(NamedType* type) {
     print_identifier(type->get_identifier());
+}
+
+void PrettyPrinter::print_type_list(TypeList* tlist, const char* begin, const char* end, bool last) {
+    if (tlist == nullptr) {
+        return;
+    }
+
+    int i;
+    int end_idx = tlist->types_count() - 1;
+
+    out << begin;
+
+    if (last) {
+        --end_idx;
+    }
+
+    for (i = 0; i < end_idx; ++i) {
+        print_type(tlist->get_type(i));
+        out << ", ";
+    }
+
+    print_type(tlist->get_type(i));
+    out << end;
 }
 
 void PrettyPrinter::print_identifier(Identifier* id) {
@@ -233,19 +275,8 @@ void PrettyPrinter::print_identifier(Identifier* id) {
     print_generics(id->get_generics());
 }
 
-void PrettyPrinter::print_generics(Generics* g) {
-    int i;
-
-    if (g == nullptr) return;
-
-    out << '<';
-    for (i = 0; i < g->types_count() - 1; ++i) {
-        print_type(g->get_type(i));
-        out << ", ";
-    }
-
-    print_type(g->get_type(i));
-    out << ">";
+void PrettyPrinter::print_generics(TypeList* g) {
+    print_type_list(g, "<", ">");
 }
 
 void PrettyPrinter::indent() {

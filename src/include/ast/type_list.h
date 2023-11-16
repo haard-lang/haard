@@ -5,7 +5,10 @@
 #include "ast/type.h"
 
 namespace haard {
-    class Generics {
+    class TypeList : public Type {
+    public:
+        TypeList(int kind);
+
     public:
         void add_type(Type* type);
         Type* get_type(int idx);

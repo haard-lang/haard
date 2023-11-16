@@ -37,6 +37,9 @@ namespace haard {
         AST_ARRAY,
         AST_STR,
         AST_NAMED,
+        AST_TUPLE_TYPE,
+        AST_FUNCTION_TYPE,
+        AST_GENERICS
     } AstKind;
 
     class AstNode {
