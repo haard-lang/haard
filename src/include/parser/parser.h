@@ -26,6 +26,8 @@ namespace haard {
 
         Identifier* parse_identifier();
 
+        Generics* parse_generics();
+
     private:
         void advance();
         bool lookahead(int kind, int offset=0);

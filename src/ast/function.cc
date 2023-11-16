@@ -4,13 +4,16 @@ using namespace haard;
 
 Function::Function() {
     set_kind(AST_FUNCTION);
-    return_type = nullptr;
+    set_generics(nullptr);
+    set_return_type(nullptr);
 }
 
 Function::~Function() {
     for (auto v : parameters) {
         delete v;
     }
+
+    delete generics;
 }
 
 void Function::add_parameter(Variable* param) {
@@ -31,4 +34,12 @@ Type* Function::get_return_type() const {
 
 void Function::set_return_type(Type* newReturn_type) {
     return_type = newReturn_type;
+}
+
+Generics* Function::get_generics() const {
+    return generics;
+}
+
+void Function::set_generics(Generics* newGenerics) {
+    generics = newGenerics;
 }

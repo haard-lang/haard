@@ -57,6 +57,8 @@ void PrettyPrinter::print_function(Function* function) {
     out << "def ";
     out << function->get_name().get_value();
 
+    print_generics(function->get_generics());
+
     out << " : ";
     print_type(function->get_return_type());
     out << '\n';

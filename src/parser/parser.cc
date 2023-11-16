@@ -63,6 +63,7 @@ Function* Parser::parse_function() {
     expect(TK_DEF);
     expect(TK_ID);
     function->set_name(matched);
+    function->set_generics(parse_generics());
 
     expect(TK_COLON);
     indent();
@@ -220,22 +221,39 @@ Identifier* Parser::parse_identifier() {
         assert(false && "invalid id");
     }
 
+    generics = parse_generics();
+    id = new Identifier(alias, name, alias_flag, global_flag, generics);
+
+    return id;
+}
+
+Generics *Parser::parse_generics() {
+    Generics* generics = nullptr;
+
     if (match(TK_BEGIN_TEMPLATE)) {
         generics = new Generics();
-
         Type* type = parse_type();
+
+        if (type == nullptr) {
+            assert(false && "type can't be null on function generics");
+        }
+
         generics->add_type(type);
 
         while (match(TK_COMMA)) {
             type = parse_type();
+
+            if (type == nullptr) {
+                assert(false && "type can't be null on function generics");
+            }
+
             generics->add_type(type);
         }
 
         expect(TK_END_TEMPLATE);
     }
 
-    id = new Identifier(alias, name, alias_flag, global_flag, generics);
-    return id;
+    return generics;
 }
 
 void Parser::advance() {

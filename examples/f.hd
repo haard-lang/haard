@@ -9,7 +9,7 @@ def main : int
 
 import std.io
 
-def foo : int
+def foo<T, K> : int
     @a : i8
     @a : u8
     @a : i16
