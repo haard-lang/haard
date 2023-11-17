@@ -66,6 +66,7 @@ void PrettyPrinter::print_function(Function* function) {
     indent();
 
     print_function_parameters(function);
+    print_statement(function->get_statements());
 
     dedent();
 }
@@ -80,6 +81,75 @@ void PrettyPrinter::print_function_parameters(Function* function) {
         print_type(param->get_type());
         out << "\n";
     }
+}
+
+void PrettyPrinter::print_statement(Statement* stmt) {
+    switch (stmt->get_kind()) {
+    case AST_COMPOUND_STATEMENT:
+        print_compound_statement((CompoundStatement*) stmt);
+        break;
+
+    case AST_EXPRESSION_STATEMENT:
+        print_expression_statement((ExpressionStatement*) stmt);
+        break;
+
+    default:
+        assert(false && "invalid statement");
+        break;
+    }
+}
+
+void PrettyPrinter::print_compound_statement(CompoundStatement* stmt) {
+    if (stmt->statements_count() == 0) {
+        out << "pass";
+        return;
+    }
+
+    for (int i = 0; i < stmt->statements_count(); ++i) {
+        print_statement(stmt->get_statement(i));
+    }
+}
+
+void PrettyPrinter::print_expression_statement(ExpressionStatement* stmt) {
+    print_indentation();
+    print_expression(stmt->get_expression());
+    out << '\n';
+}
+
+void PrettyPrinter::print_expression(Expression* expr) {
+    switch (expr->get_kind()) {
+    case AST_ID:
+        print_identifier((Identifier*) expr);
+        break;
+
+    case AST_ASSIGNMENT:
+        print_binary_operator((BinaryOperator*) expr, "=");
+        break;
+
+    case AST_PLUS:
+        print_binary_operator((BinaryOperator*) expr, "+");
+        break;
+
+    case AST_MINUS:
+        print_binary_operator((BinaryOperator*) expr, "-");
+        break;
+
+    case AST_TIMES:
+        print_binary_operator((BinaryOperator*) expr, "*");
+        break;
+
+    case AST_DIVISION:
+        print_binary_operator((BinaryOperator*) expr, "/");
+        break;
+    }
+}
+
+void PrettyPrinter::print_binary_operator(BinaryOperator* bin, const char* oper) {
+    out << "(";
+    print_expression(bin->get_left());
+    out << ' ' << oper << ' ';
+    print_expression(bin->get_right());
+    out << ")";
 }
 
 void PrettyPrinter::print_type(Type* type) {

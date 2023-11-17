@@ -13,8 +13,7 @@ namespace haard {
     public:
         Type(int kind, const Token& token);
 
-    private:
-        Token token;
     };
 }
+
 #endif

@@ -9,6 +9,7 @@ def main : int
 
 import std.io
 
+
 def foo<T, K> : int
     @a : i8
     @a : u8
@@ -46,3 +47,8 @@ def foo<T, K> : int
     @n : (int, str, double, Vector<my_mod::Foo>, (int, bool))
     @n : (int, int) -> int
     @n : (int) -> int
+
+    my_var a b c
+    a = b + d + d - a * e
+    # (a = (((b + d) + d) - (a * e)))
+

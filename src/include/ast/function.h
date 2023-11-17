@@ -6,6 +6,7 @@
 #include "ast/variable.h"
 #include "ast/type.h"
 #include "ast/type_list.h"
+#include "ast/compound_statement.h"
 
 namespace haard {
     class Function : public Declaration {
@@ -18,14 +19,18 @@ namespace haard {
         Variable* get_parameter(int idx);
 
         Type* get_return_type() const;
-        void set_return_type(Type *newReturn_type);
+        void set_return_type(Type* newReturn_type);
 
-        TypeList *get_generics() const;
-        void set_generics(TypeList *newGenerics);
+        TypeList* get_generics() const;
+        void set_generics(TypeList* newGenerics);
+
+        CompoundStatement *get_statements() const;
+        void set_statements(CompoundStatement *newStatements);
 
     private:
         Type* return_type;
         TypeList* generics;
+        CompoundStatement* statements;
         std::vector<Variable*> parameters;
     };
 }

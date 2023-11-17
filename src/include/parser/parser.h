@@ -22,10 +22,19 @@ namespace haard {
         Function* parse_function();
         void parse_parameters(Function* function);
 
+        Statement* parse_statement();
+        CompoundStatement* parse_compound_statement();
+
         Type* parse_type();
         Type* parse_function_type();
         Type* parse_tuple_type();
         Type* parse_primary_type();
+
+        Expression* parse_expression();
+        Expression* parse_assignment_expression();
+
+        Expression* parse_arith_expression();
+        Expression* parse_term_expression();
 
         Identifier* parse_identifier();
 
@@ -42,6 +51,7 @@ namespace haard {
 
         void indent();
         void dedent();
+        bool is_indented();
 
         bool has_parameters();
         bool next_token_on_same_line();

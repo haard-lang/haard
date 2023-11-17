@@ -2,11 +2,11 @@
 #define HAARD_IDENTIFIER_H
 
 #include "token/token.h"
-#include "ast/ast_node.h"
+#include "ast/expression.h"
 #include "ast/type_list.h"
 
 namespace haard {
-    class Identifier : public AstNode {
+    class Identifier : public Expression {
     public:
         Identifier();
         Identifier(Token& alias, Token& name, bool alias_flag, bool global_flag, TypeList* generics);
@@ -25,7 +25,6 @@ namespace haard {
         void set_generics(TypeList *newGenerics);
 
     private:
-        Token name;
         Token alias;
         bool alias_flag;
         bool global_alias_flag;

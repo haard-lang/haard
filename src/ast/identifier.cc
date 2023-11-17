@@ -22,11 +22,11 @@ Identifier::~Identifier() {
 }
 
 const Token& Identifier::get_name() const {
-    return name;
+    return get_token();
 }
 
 void Identifier::set_name(const Token& newName) {
-    name = newName;
+    set_token(newName);
 }
 
 const Token& Identifier::get_alias() const {

@@ -6,12 +6,15 @@ Function::Function() {
     set_kind(AST_FUNCTION);
     set_generics(nullptr);
     set_return_type(nullptr);
+    set_statements(nullptr);
 }
 
 Function::~Function() {
     for (auto v : parameters) {
         delete v;
     }
+
+    delete statements;
 }
 
 void Function::add_parameter(Variable* param) {
@@ -40,4 +43,12 @@ TypeList* Function::get_generics() const {
 
 void Function::set_generics(TypeList* newGenerics) {
     generics = newGenerics;
+}
+
+CompoundStatement* Function::get_statements() const {
+    return statements;
+}
+
+void Function::set_statements(CompoundStatement* newStatements) {
+    statements = newStatements;
 }

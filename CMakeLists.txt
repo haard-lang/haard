@@ -28,6 +28,11 @@ set(AST_SRC
     src/ast/subtyped_type.cc
     src/ast/named_type.cc
     src/ast/type_list.cc
+    src/ast/statement.cc
+    src/ast/compound_statement.cc
+    src/ast/expression_statement.cc
+    src/ast/expression.cc
+    src/ast/binary_operator.cc
     src/ast/identifier.cc
 )
 

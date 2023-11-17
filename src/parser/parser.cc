@@ -80,6 +80,7 @@ Function* Parser::parse_function() {
         parse_parameters(function);
     }
 
+    function->set_statements(parse_compound_statement());
     dedent();
 
     return function;
@@ -106,6 +107,48 @@ void Parser::parse_parameters(Function* function) {
 
         function->add_parameter(param);
     }
+}
+
+Statement* Parser::parse_statement() {
+    Statement* stmt = nullptr;
+
+    /*if (lookahead(TK_WHILE)) {
+        stmt = parse_while_statement();
+    } else if (lookahead(TK_FOR)) {
+        stmt = parse_for_statement();
+    } else if (lookahead(TK_IF)) {
+        stmt = parse_if_statement();
+    } else if (lookahead(TK_RETURN)) {
+        stmt = parse_jump_statement(TK_RETURN, STMT_RETURN);
+    } else if (lookahead(TK_YIELD)) {
+        stmt = parse_jump_statement(TK_YIELD, STMT_YIELD);
+    } else if (lookahead(TK_CONTINUE)) {
+        stmt = parse_jump_statement(TK_CONTINUE, STMT_CONTINUE);
+    } else if (lookahead(TK_GOTO)) {
+        stmt = parse_jump_statement(TK_GOTO, STMT_GOTO);
+    } else if (lookahead(TK_BREAK)) {
+        stmt = parse_jump_statement(TK_BREAK, STMT_BREAK);
+    } else if (lookahead(TK_VAR)) {
+        stmt = parse_variable_declaration();*/
+    //} else {
+        stmt = new ExpressionStatement(parse_expression());
+    //}
+
+    return stmt;
+}
+
+CompoundStatement* Parser::parse_compound_statement() {
+    CompoundStatement* statements = new CompoundStatement();
+
+    if (match(TK_PASS)) {
+        return statements;
+    }
+
+    while (is_indented() && !lookahead(TK_RIGHT_CURLY_BRACKET)) {
+        statements->add_statement(parse_statement());
+    }
+
+    return statements;
 }
 
 Type* Parser::parse_type() {
@@ -228,6 +271,60 @@ Type* Parser::parse_primary_type() {
     }
 
     return type;
+}
+
+Expression* Parser::parse_expression() {
+    return parse_assignment_expression();
+}
+
+Expression* Parser::parse_assignment_expression() {
+    Token oper;
+    Expression* expr = parse_arith_expression();
+
+    if (match(TK_ASSIGNMENT)) {
+        oper = matched;
+        expr = new BinaryOperator(AST_ASSIGNMENT, oper, expr, parse_expression());
+    }
+
+    return expr;
+}
+
+Expression* Parser::parse_arith_expression() {
+    Token oper;
+    Expression* expr = parse_term_expression();
+
+    while (true) {
+        if (match(TK_PLUS)) {
+            oper = matched;
+            expr = new BinaryOperator(AST_PLUS, oper, expr, parse_term_expression());
+        } else if (match(TK_MINUS)) {
+            oper = matched;
+            expr = new BinaryOperator(AST_MINUS, oper, expr, parse_term_expression());
+        } else {
+            break;
+        }
+    }
+
+    return expr;
+}
+
+Expression* Parser::parse_term_expression() {
+    Token oper;
+    Expression* expr = parse_identifier();
+
+    while (true) {
+        if (match(TK_TIMES)) {
+            oper = matched;
+            expr = new BinaryOperator(AST_TIMES, oper, expr, parse_identifier());
+        } else if (match(TK_DIVISION)) {
+            oper = matched;
+            expr = new BinaryOperator(AST_DIVISION, oper, expr, parse_identifier());
+        } else {
+            break;
+        }
+    }
+
+    return expr;
 }
 
 Identifier* Parser::parse_identifier() {
@@ -354,6 +451,14 @@ void Parser::indent() {
 
 void Parser::dedent() {
     indent_stack.pop();
+}
+
+bool Parser::is_indented() {
+    if (has_next()) {
+        return tokens[idx].get_whitespace() > indent_stack.top();
+    }
+
+    return false;
 }
 
 bool Parser::has_parameters() {

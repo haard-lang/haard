@@ -16,6 +16,6 @@ Type::~Type() {
 
 Type::Type(int kind, const Token& token) {
     set_kind(kind);
-    this->token = token;
+    set_token(token);
     type_pool.add_type(this);
 }

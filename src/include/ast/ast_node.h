@@ -1,12 +1,27 @@
 #ifndef HAARD_AST_NODE_H
 #define HAARD_AST_NODE_H
 
+#include "token/token.h"
+
 namespace haard {
     typedef enum AstKind {
         AST_MODULE,
         AST_FUNCTION,
         AST_IMPORT,
         AST_ID,
+
+        AST_UNKNOWN_STATEMENT,
+        AST_COMPOUND_STATEMENT,
+        AST_EXPRESSION_STATEMENT,
+
+        AST_EXPRESSION_UNKNOWN,
+        AST_ASSIGNMENT,
+
+        AST_PLUS,
+        AST_MINUS,
+
+        AST_TIMES,
+        AST_DIVISION,
 
         AST_BOOL,
         AST_CHAR,
@@ -44,11 +59,18 @@ namespace haard {
 
     class AstNode {
     public:
+        virtual ~AstNode();
+
+    public:
         int get_kind() const;
         void set_kind(int newKind);
 
+        const Token &get_token() const;
+        void set_token(const Token &newToken);
+
     private:
         int kind;
+        Token token;
     };
 }
 

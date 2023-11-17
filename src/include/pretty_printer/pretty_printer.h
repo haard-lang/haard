@@ -18,6 +18,13 @@ namespace haard {
         void print_function(Function* function);
         void print_function_parameters(Function* function);
 
+        void print_statement(Statement* stmt);
+        void print_compound_statement(CompoundStatement* stmt);
+        void print_expression_statement(ExpressionStatement* stmt);
+
+        void print_expression(Expression* expr);
+        void print_binary_operator(BinaryOperator* bin, const char* oper);
+
         void print_type(Type* type);
         void print_subtyped_type(SubtypedType* type);
         void print_tuple_type(TypeList* tuple);
