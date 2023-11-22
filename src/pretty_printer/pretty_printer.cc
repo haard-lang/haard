@@ -141,6 +141,10 @@ void PrettyPrinter::print_expression(Expression* expr) {
     case AST_DIVISION:
         print_binary_operator((BinaryOperator*) expr, "/");
         break;
+
+    case AST_UNARY_PLUS:
+        print_unary_operator((UnaryOperator*) expr, "+");
+        break;
     }
 }
 
@@ -149,6 +153,13 @@ void PrettyPrinter::print_binary_operator(BinaryOperator* bin, const char* oper)
     print_expression(bin->get_left());
     out << ' ' << oper << ' ';
     print_expression(bin->get_right());
+    out << ")";
+}
+
+void PrettyPrinter::print_unary_operator(UnaryOperator* un, const char* oper) {
+    out << "(";
+    out << oper;
+    print_expression(un->get_expression());
     out << ")";
 }
 

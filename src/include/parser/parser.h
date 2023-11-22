@@ -36,6 +36,8 @@ namespace haard {
         Expression* parse_arith_expression();
         Expression* parse_term_expression();
 
+        Expression* parse_unary_expression();
+
         Identifier* parse_identifier();
 
         TypeList* parse_generics();

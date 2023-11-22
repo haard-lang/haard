@@ -23,6 +23,8 @@ namespace haard {
         AST_TIMES,
         AST_DIVISION,
 
+        AST_UNARY_PLUS,
+
         AST_BOOL,
         AST_CHAR,
         AST_UCHAR,

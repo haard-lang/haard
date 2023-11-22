@@ -33,6 +33,7 @@ set(AST_SRC
     src/ast/expression_statement.cc
     src/ast/expression.cc
     src/ast/binary_operator.cc
+    src/ast/unary_operator.cc
     src/ast/identifier.cc
 )
 

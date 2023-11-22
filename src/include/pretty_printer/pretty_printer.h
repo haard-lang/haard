@@ -24,6 +24,7 @@ namespace haard {
 
         void print_expression(Expression* expr);
         void print_binary_operator(BinaryOperator* bin, const char* oper);
+        void print_unary_operator(UnaryOperator* un, const char* oper);
 
         void print_type(Type* type);
         void print_subtyped_type(SubtypedType* type);

@@ -15,6 +15,7 @@
 
 #include "ast/expression.h"
 #include "ast/binary_operator.h"
+#include "ast/unary_operator.h"
 #include "ast/identifier.h"
 
 #endif

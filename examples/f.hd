@@ -50,5 +50,15 @@ def foo<T, K> : int
 
     my_var a b c
     a = b + d + d - a * e
-    # (a = (((b + d) + d) - (a * e)))
 
+    a = a + a
+
+    a = a
+    +a
+    a = a + +a
+    a = a +
+    +a
+
+    a = a +
+        a +
+        a 

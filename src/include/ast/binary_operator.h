@@ -9,7 +9,7 @@ namespace haard {
         BinaryOperator(int kind, Token& oper, Expression* left, Expression* right);
         ~BinaryOperator();
 
-        Expression *get_left() const;
+        Expression* get_left() const;
         void set_left(Expression *newLeft);
 
         Expression *get_right() const;

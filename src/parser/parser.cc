@@ -294,7 +294,7 @@ Expression* Parser::parse_arith_expression() {
     Expression* expr = parse_term_expression();
 
     while (true) {
-        if (match(TK_PLUS)) {
+        if (next_token_on_same_line() && match(TK_PLUS)) {
             oper = matched;
             expr = new BinaryOperator(AST_PLUS, oper, expr, parse_term_expression());
         } else if (match(TK_MINUS)) {
@@ -310,18 +310,32 @@ Expression* Parser::parse_arith_expression() {
 
 Expression* Parser::parse_term_expression() {
     Token oper;
-    Expression* expr = parse_identifier();
+    Expression* expr = parse_unary_expression();
 
     while (true) {
         if (match(TK_TIMES)) {
             oper = matched;
-            expr = new BinaryOperator(AST_TIMES, oper, expr, parse_identifier());
+            expr = new BinaryOperator(AST_TIMES, oper, expr, parse_unary_expression());
         } else if (match(TK_DIVISION)) {
             oper = matched;
-            expr = new BinaryOperator(AST_DIVISION, oper, expr, parse_identifier());
+            expr = new BinaryOperator(AST_DIVISION, oper, expr, parse_unary_expression());
         } else {
             break;
         }
+    }
+
+    return expr;
+}
+
+Expression* Parser::parse_unary_expression() {
+    Token oper;
+    Expression* expr = nullptr;
+
+    if (match(TK_PLUS)) {
+        oper = matched;
+        expr = new UnaryOperator(AST_UNARY_PLUS, oper, parse_identifier());
+    } else {
+        expr = parse_identifier();
     }
 
     return expr;
