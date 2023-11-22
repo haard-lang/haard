@@ -15,6 +15,15 @@
 
 #include "ast/expression.h"
 #include "ast/binary_operator.h"
+
+#include "ast/plus.h"
+#include "ast/minus.h"
+
+#include "ast/times.h"
+#include "ast/division.h"
+#include "ast/modulo.h"
+#include "ast/integer_division.h"
+
 #include "ast/unary_operator.h"
 #include "ast/identifier.h"
 

@@ -47,6 +47,7 @@ namespace haard {
         void advance();
         bool lookahead(int kind, int offset=0);
         bool match(int kind);
+        bool match_same_line(int kind);
         bool match();
         bool expect(int kind);
         bool has_next(int offset=0);

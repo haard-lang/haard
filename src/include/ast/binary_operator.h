@@ -6,6 +6,7 @@
 namespace haard {
     class BinaryOperator : public Expression {
     public:
+        BinaryOperator();
         BinaryOperator(int kind, Token& oper, Expression* left, Expression* right);
         ~BinaryOperator();
 

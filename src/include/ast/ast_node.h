@@ -22,6 +22,8 @@ namespace haard {
 
         AST_TIMES,
         AST_DIVISION,
+        AST_MODULO,
+        AST_INTEGER_DIVISION,
 
         AST_UNARY_PLUS,
 

@@ -294,12 +294,12 @@ Expression* Parser::parse_arith_expression() {
     Expression* expr = parse_term_expression();
 
     while (true) {
-        if (next_token_on_same_line() && match(TK_PLUS)) {
+        if (match_same_line(TK_PLUS)) {
             oper = matched;
-            expr = new BinaryOperator(AST_PLUS, oper, expr, parse_term_expression());
-        } else if (match(TK_MINUS)) {
+            expr = new Plus(oper, expr, parse_term_expression());
+        } else if (match_same_line(TK_MINUS)) {
             oper = matched;
-            expr = new BinaryOperator(AST_MINUS, oper, expr, parse_term_expression());
+            expr = new Minus(oper, expr, parse_term_expression());
         } else {
             break;
         }
@@ -313,12 +313,18 @@ Expression* Parser::parse_term_expression() {
     Expression* expr = parse_unary_expression();
 
     while (true) {
-        if (match(TK_TIMES)) {
+        if (match_same_line(TK_TIMES)) {
             oper = matched;
-            expr = new BinaryOperator(AST_TIMES, oper, expr, parse_unary_expression());
-        } else if (match(TK_DIVISION)) {
+            expr = new Times(oper, expr, parse_unary_expression());
+        } else if (match_same_line(TK_DIVISION)) {
             oper = matched;
-            expr = new BinaryOperator(AST_DIVISION, oper, expr, parse_unary_expression());
+            expr = new Division(oper, expr, parse_unary_expression());
+        } else if (match_same_line(TK_MODULO)) {
+            oper = matched;
+            expr = new Modulo(oper, expr, parse_unary_expression());
+        } else if (match_same_line(TK_INTEGER_DIVISION)) {
+            oper = matched;
+            expr = new IntegerDivision(oper, expr, parse_unary_expression());
         } else {
             break;
         }
@@ -429,6 +435,10 @@ bool Parser::match(int kind) {
     }
 
     return false;
+}
+
+bool Parser::match_same_line(int kind) {
+    return next_token_on_same_line() && match(kind);
 }
 
 bool Parser::match() {

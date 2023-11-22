@@ -142,6 +142,14 @@ void PrettyPrinter::print_expression(Expression* expr) {
         print_binary_operator((BinaryOperator*) expr, "/");
         break;
 
+    case AST_MODULO:
+        print_binary_operator((BinaryOperator*) expr, "%");
+        break;
+
+    case AST_INTEGER_DIVISION:
+        print_binary_operator((BinaryOperator*) expr, "//");
+        break;
+
     case AST_UNARY_PLUS:
         print_unary_operator((UnaryOperator*) expr, "+");
         break;

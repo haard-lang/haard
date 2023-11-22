@@ -62,3 +62,10 @@ def foo<T, K> : int
     a = a +
         a +
         a 
+
+    a = a * b / c % d // e
+
+    a = a *
+                b /
+           c +
+           d
