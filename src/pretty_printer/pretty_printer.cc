@@ -273,18 +273,18 @@ void PrettyPrinter::print_type(Type* type) {
         out << "bool";
         break;
 
-    case AST_POINTER:
-    case AST_REFERENCE:
-    case AST_LIST:
+    case TYPE_POINTER:
+    case TYPE_REFERENCE:
+    case TYPE_LIST:
         print_subtyped_type((SubtypedType*) type);
         break;
 
-    case AST_TUPLE_TYPE:
-        print_tuple_type((TypeList*) type);
+    case TYPE_TUPLE:
+        print_tuple_type((TupleType*) type);
         break;
 
-    case AST_FUNCTION_TYPE:
-        print_function_type((TypeList*) type);
+    case TYPE_FUNCTION:
+        print_function_type((FunctionType*) type);
         break;
 
     case AST_NAMED:
@@ -297,17 +297,17 @@ void PrettyPrinter::print_subtyped_type(SubtypedType* type) {
     int kind = type->get_kind();
 
     switch (kind) {
-    case AST_POINTER:
+    case TYPE_POINTER:
         print_type(type->get_subtype());
         out << '*';
         break;
 
-    case AST_REFERENCE:
+    case TYPE_REFERENCE:
         print_type(type->get_subtype());
         out << '&';
         break;
 
-    case AST_LIST:
+    case TYPE_LIST:
         out << '[';
         print_type(type->get_subtype());
         out << ']';
@@ -315,35 +315,30 @@ void PrettyPrinter::print_subtyped_type(SubtypedType* type) {
     }
 }
 
-void PrettyPrinter::print_tuple_type(TypeList* tuple) {
-    print_type_list(tuple, "(", ")");
+void PrettyPrinter::print_tuple_type(TupleType* tuple) {
+    print_type_list(tuple->get_types(), "(", ")");
 }
 
-void PrettyPrinter::print_function_type(TypeList* type) {
-    print_type_list(type, "(", ")", true);
+void PrettyPrinter::print_function_type(FunctionType* type) {
+    print_type_list(type->get_param_types(), "(", ")");
     out << " -> ";
-    print_type(type->get_type(type->types_count() - 1));
+    print_type(type->get_return_type());
 }
 
 void PrettyPrinter::print_named_type(NamedType* type) {
     print_identifier(type->get_identifier());
 }
 
-void PrettyPrinter::print_type_list(TypeList* tlist, const char* begin, const char* end, bool last) {
+void PrettyPrinter::print_type_list(TypeList* tlist, const char* begin, const char* end) {
     if (tlist == nullptr) {
         return;
     }
 
     int i;
-    int end_idx = tlist->types_count() - 1;
 
     out << begin;
 
-    if (last) {
-        --end_idx;
-    }
-
-    for (i = 0; i < end_idx; ++i) {
+    for (i = 0; i < tlist->types_count() - 1; ++i) {
         print_type(tlist->get_type(i));
         out << ", ";
     }

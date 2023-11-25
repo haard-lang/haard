@@ -152,38 +152,38 @@ CompoundStatement* Parser::parse_compound_statement() {
 }
 
 Type* Parser::parse_type() {
-    return parse_function_type();
+    return parse_tuple_or_function_type();
 }
 
-Type* Parser::parse_function_type() {
-    Type* type = parse_tuple_type();
-
-    if (type->get_kind() == AST_TUPLE_TYPE) {
-        TypeList* tlist = (TypeList*) type;
-
-        if (match(TK_ARROW)) {
-            tlist->add_type(parse_type());
-            tlist->set_kind(AST_FUNCTION_TYPE);
-        }
-
-        type = tlist;
-    }
-
-    return type;
-}
-
-Type* Parser::parse_tuple_type() {
-    TypeList* tuple;
+Type* Parser::parse_tuple_or_function_type() {
+    Type* type;
+    TypeList* types;
 
     if (!lookahead(TK_LEFT_PARENTHESIS)) {
         return parse_primary_type();
     }
 
     expect(TK_LEFT_PARENTHESIS);
-    tuple = parse_type_list(AST_TUPLE_TYPE);
+    types = parse_type_list(TYPE_TUPLE);
     expect(TK_RIGHT_PARENTHESIS);
 
-    return tuple;
+    if (match(TK_ARROW)) {
+        if (!next_token_on_same_line()) {
+            assert(false && "return type should be on same line");
+        }
+
+        type = parse_type();
+
+        if (type == nullptr) {
+            assert(false && "expected return type");
+        }
+
+        type = new FunctionType(types, type);
+    } else {
+        type = new TupleType(types);
+    }
+
+    return type;
 }
 
 Type* Parser::parse_primary_type() {
@@ -243,7 +243,7 @@ Type* Parser::parse_primary_type() {
         if (type == nullptr) {
             assert(false && "no type");
         } else {
-            type = new SubtypedType(AST_LIST, type);
+            type = new ListType(type);
         }
 
         expect(TK_RIGHT_SQUARE_BRACKET);
@@ -252,17 +252,17 @@ Type* Parser::parse_primary_type() {
     }
 
     while (type != nullptr) {
-        if (next_token_on_same_line() && match(TK_TIMES)) {
-            type = new SubtypedType(AST_POINTER, type);
-        } else if (next_token_on_same_line() && match(TK_POWER)) {
-            type = new SubtypedType(AST_POINTER, type);
-            type = new SubtypedType(AST_POINTER, type);
-        } else if (next_token_on_same_line() && match(TK_BITWISE_AND)) {
-            type = new SubtypedType(AST_REFERENCE, type);
-        } else if (next_token_on_same_line() && match(TK_LOGICAL_AND)) {
-            type = new SubtypedType(AST_REFERENCE, type);
-            type = new SubtypedType(AST_REFERENCE, type);
-        } else if (next_token_on_same_line() && match(TK_LEFT_SQUARE_BRACKET)) {
+        if (match_same_line(TK_TIMES)) {
+            type = new PointerType(type);
+        } else if (match_same_line(TK_POWER)) {
+            type = new PointerType(type);
+            type = new PointerType(type);
+        } else if (match_same_line(TK_BITWISE_AND)) {
+            type = new ReferenceType(type);
+        } else if (match_same_line(TK_LOGICAL_AND)) {
+            type = new ReferenceType(type);
+            type = new ReferenceType(type);
+        } else if (match_same_line(TK_LEFT_SQUARE_BRACKET)) {
             /*type = new SubtypedType(AST_ARRAY, type);
             expect(TK_RIGHT_SQUARE_BRACKET);*/
         } else {
@@ -370,6 +370,8 @@ Identifier* Parser::parse_identifier() {
             name = matched;
         }
     } else {
+        match();
+        std::cout << matched.to_str() << '\n';
         assert(false && "invalid id");
     }
 

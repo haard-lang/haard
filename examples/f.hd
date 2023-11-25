@@ -34,7 +34,7 @@ def foo<T, K> : int
     @a : f32
     @a : f64
     @b : int*
-    @c : int***
+    @c : int**
     @c : int&&
     @c : [int]
     @d : [int&]
@@ -47,6 +47,9 @@ def foo<T, K> : int
     @n : (int, str, double, Vector<my_mod::Foo>, (int, bool))
     @n : (int, int) -> int
     @n : (int) -> int
+    @n : (int, int) -> int
+
+    a = a + a
 
     my_var a b c
     a = b + d + d - a * e

@@ -2,6 +2,10 @@
 
 using namespace haard;
 
+SubtypedType::SubtypedType() {
+    set_kind(TYPE_UNKNOWN);
+}
+
 SubtypedType::SubtypedType(int kind, Type* type) {
     set_kind(kind);
     set_subtype(type);

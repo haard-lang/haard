@@ -25,6 +25,12 @@ set(AST_SRC
     src/ast/function.cc
     src/ast/variable.cc
     src/ast/type.cc
+    src/ast/function_type.cc
+    src/ast/pointer_type.cc
+    src/ast/reference_type.cc
+    src/ast/list_type.cc
+    src/ast/tuple_type.cc
+    src/ast/array_type.cc
     src/ast/subtyped_type.cc
     src/ast/named_type.cc
     src/ast/type_list.cc

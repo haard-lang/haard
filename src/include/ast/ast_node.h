@@ -50,14 +50,15 @@ namespace haard {
         AST_F64,
         AST_SYMBOL,
         AST_VOID,
-        AST_POINTER,
-        AST_REFERENCE,
-        AST_LIST,
+        TYPE_UNKNOWN,
+        TYPE_POINTER,
+        TYPE_REFERENCE,
+        TYPE_LIST,
         AST_ARRAY,
         AST_STR,
         AST_NAMED,
-        AST_TUPLE_TYPE,
-        AST_FUNCTION_TYPE,
+        TYPE_TUPLE,
+        TYPE_FUNCTION,
         AST_GENERICS
     } AstKind;
 
@@ -69,8 +70,8 @@ namespace haard {
         int get_kind() const;
         void set_kind(int newKind);
 
-        const Token &get_token() const;
-        void set_token(const Token &newToken);
+        const Token& get_token() const;
+        void set_token(const Token& newToken);
 
     private:
         int kind;

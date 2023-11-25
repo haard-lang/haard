@@ -11,6 +11,12 @@
 
 #include "ast/type.h"
 #include "ast/subtyped_type.h"
+#include "ast/pointer_type.h"
+#include "ast/reference_type.h"
+#include "ast/list_type.h"
+#include "ast/function_type.h"
+#include "ast/array_type.h"
+#include "ast/tuple_type.h"
 #include "ast/named_type.h"
 
 #include "ast/expression.h"

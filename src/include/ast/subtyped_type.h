@@ -6,6 +6,7 @@
 namespace haard {
     class SubtypedType : public Type {
     public:
+        SubtypedType();
         SubtypedType(int kind, Type* type);
 
     public:

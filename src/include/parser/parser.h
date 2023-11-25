@@ -27,7 +27,7 @@ namespace haard {
 
         Type* parse_type();
         Type* parse_function_type();
-        Type* parse_tuple_type();
+        Type* parse_tuple_or_function_type();
         Type* parse_primary_type();
 
         Expression* parse_expression();
