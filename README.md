@@ -23,6 +23,9 @@ https://www.youtube.com/watch?v=OpA4NuTI_Kc&list=PLva7vXJ4ZjpGp358D_T6KNkMkGDez9
 
 ## Install from source
 
+You need cmake to compile the project. The project uses only plain C++11, so
+you don't need to worry about dependencies :)
+
 1. Clone the repository
 2. Enter the directory
 3. Create a folder named build and enter it
@@ -39,18 +42,12 @@ cmake ..
 make
 ```
 
-Examples of code can be found at the samples folder. Note, however, that
-they are just example of code. Many of them are not running yet.
-
 ## The language
 
 The programming language is named Haard. The name is a play of the 
 word 'hard' because one of the goals of the language is to be able to do
 system development (hard -> hardware -> operating system). Also, I wanted 
 to try to do some fun by saying that 'haard is not hard :)'.
-It also seems that Haard means fireplace or something like that in Dutch 
-(that's why the logo is a flame). To finish, my name is Hadley and I work with
-hardware (FPGAs)... Oh, well. I am not good with names. 
 
 Haard is a compiled language and it will try to provide the following:
 
@@ -109,7 +106,6 @@ def sum : int
     @b : int
 
     return a + b
-
 
 def main : int
     a = 2
@@ -201,7 +197,7 @@ def main : int
     # its just a demo. Don't blame me for invalid memory access
     println('' + v[size - 1] + '}')
 
-    delete v
+    delete[] v
     *(v + 2) = *v # uh oh, maybe a segfault here
 ```
 
@@ -219,7 +215,11 @@ def negative : void
 
     pixel->r = 255 - pixel->r 
     pixel->g = 255 - pixel->g
-    pixel->b = 255 - pixel->b
+
+    # can also use . instead of ->
+    # Compiler is smart enough to handle this case so you can always type .
+    # so you don't have to worry about pointer, reference, value etc
+    pixel.b = 255 - pixel.b
 
 def strlen : uint
     @s : char*
@@ -295,7 +295,6 @@ class Player:
 
     def is_alive : bool
         return life > 0 
-
 
     def get_position : Position
         return Position(x, y)
