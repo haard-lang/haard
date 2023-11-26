@@ -299,3 +299,90 @@ class Player:
     def get_position : Position
         return Position(x, y)
 ```
+
+A generic binary tree:
+
+```python
+class Node<T>:
+    elem  : T
+    left  : Node<T>*
+    right : Node<T>*
+
+    # methods come here
+
+class Tree<T>:
+    root : Node<T>*
+
+    # methods come here
+```
+
+### Enumerations
+
+```python
+
+# like C 
+enum Colors:
+    RED
+    GREEN
+    BLUE
+
+# make each enum be a char size internally
+enum Colors(char):
+    RED
+    GREEN
+    BLUE
+
+# It can also have expressions
+enum Mask:
+    Mask1 = 1 << 0
+    Mask2 = 1 << 1
+    Mask3 = 1 << 2
+    Mask4 = 0b1001
+
+# enums can also behave like algebraic data types (also known as tagged unions)
+enum Event:
+    None     : void
+    Click    : (int, int)
+    Keypress : char
+
+# enums can then be pattern matched
+
+# convert an enum to a string
+def to_str : str
+    @ev : Event&
+
+    switch ev
+    case None:
+        return "None"
+
+    case Click(x, y):
+        return "Click($x, $y)"   # $x and $y are string interpolation
+
+    case Keypress(c):
+        return "Keypress($c)"
+
+def main : void
+    ev = Click(2, 3) # create an Event
+    ev2 = Event.Click(2, 3) # you can also be more precise if you want
+    ev3 = None
+
+    println(to_str(ev))
+    println(ev2.to_str()) # using method call syntax
+    println("ev3 = $ev3") # or using string interpolation
+
+# you can also use templates. The famous Option, Maybe and similar can be
+# implemented as
+
+enum Option<T>:
+    None : void
+    Some : T
+
+    # enums can also have methods
+    def unwrap : T&
+        switch this
+        case None:
+            # handle None case. Maybe finish program
+
+        case Some(a):
+            return a
+```
