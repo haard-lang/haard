@@ -341,6 +341,50 @@ Expression* Parser::parse_unary_expression() {
         oper = matched;
         expr = new UnaryOperator(AST_UNARY_PLUS, oper, parse_identifier());
     } else {
+        expr = parse_postfix_expression();
+    }
+
+    return expr;
+}
+
+Expression* Parser::parse_postfix_expression() {
+    Token oper;
+    Expression* expr = parse_primary_expression();
+
+    while (true) {
+        if (match(TK_DOT)) {
+            oper = matched;
+            expr = new BinaryOperator(AST_DOT, oper, expr, parse_identifier());
+        } else if (match(TK_ARROW)) {
+            oper = matched;
+            expr = new BinaryOperator(AST_ARROW, oper, expr, parse_identifier());
+        } else if (match(TK_LEFT_SQUARE_BRACKET)) {
+            oper = matched;
+            expr = new BinaryOperator(AST_INDEX, oper, expr, parse_expression());
+            expect(TK_RIGHT_SQUARE_BRACKET);
+        } else if (match_same_line(TK_LEFT_PARENTHESIS)) {
+            oper = matched;
+            assert(false && "implement me");
+            //expr = new Call(oper, expr, parse_argument_list());
+            expect(TK_RIGHT_PARENTHESIS);
+        } else if (match_same_line(TK_INC)) {
+            oper = matched;
+            expr = new UnaryOperator(AST_POS_INC, oper, expr);
+        } else if (match_same_line(TK_DEC)) {
+            oper = matched;
+            expr = new UnaryOperator(AST_POS_DEC, oper, expr);
+        } else {
+            break;
+        }
+    }
+
+    return expr;
+}
+
+Expression* Parser::parse_primary_expression() {
+    Expression* expr = nullptr;
+
+    if (lookahead(TK_ID) || lookahead(TK_SCOPE)) {
         expr = parse_identifier();
     }
 

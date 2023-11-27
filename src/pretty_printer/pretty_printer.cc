@@ -126,7 +126,7 @@ void PrettyPrinter::print_expression(Expression* expr) {
         print_binary_operator((BinaryOperator*) expr, "=");
         break;
 
-    case AST_PLUS:
+    case EXPR_PLUS:
         print_binary_operator((BinaryOperator*) expr, "+");
         break;
 
@@ -150,24 +150,65 @@ void PrettyPrinter::print_expression(Expression* expr) {
         print_binary_operator((BinaryOperator*) expr, "//");
         break;
 
+    case AST_DOT:
+        print_binary_operator((BinaryOperator*) expr, ".", true);
+        break;
+
+    case AST_ARROW:
+        print_binary_operator((BinaryOperator*) expr, "->", true);
+        break;
+
+    case AST_INDEX:
+        print_index_expression((BinaryOperator*) expr);
+        break;
+
     case AST_UNARY_PLUS:
         print_unary_operator((UnaryOperator*) expr, "+");
+        break;
+
+    case AST_POS_INC:
+        print_unary_operator((UnaryOperator*) expr, "++", true);
+        break;
+
+    case AST_POS_DEC:
+        print_unary_operator((UnaryOperator*) expr, "--", true);
         break;
     }
 }
 
-void PrettyPrinter::print_binary_operator(BinaryOperator* bin, const char* oper) {
+void PrettyPrinter::print_index_expression(BinaryOperator* bin) {
+    print_expression(bin->get_left());
+    out << '[';
+
+    print_expression(bin->get_right());
+    out << ']';
+}
+
+void PrettyPrinter::print_binary_operator(BinaryOperator* bin, const char* oper, bool no_space) {
     out << "(";
     print_expression(bin->get_left());
-    out << ' ' << oper << ' ';
+
+    if (no_space) {
+        out << oper;
+    } else {
+        out << ' ' << oper << ' ';
+    }
+
     print_expression(bin->get_right());
     out << ")";
 }
 
-void PrettyPrinter::print_unary_operator(UnaryOperator* un, const char* oper) {
+void PrettyPrinter::print_unary_operator(UnaryOperator* un, const char* oper, bool last) {
     out << "(";
-    out << oper;
-    print_expression(un->get_expression());
+
+    if (last) {
+        print_expression(un->get_expression());
+        out << oper;
+    } else {
+        out << oper;
+        print_expression(un->get_expression());
+    }
+
     out << ")";
 }
 

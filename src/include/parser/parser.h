@@ -37,6 +37,8 @@ namespace haard {
         Expression* parse_term_expression();
 
         Expression* parse_unary_expression();
+        Expression* parse_postfix_expression();
+        Expression* parse_primary_expression();
 
         Identifier* parse_identifier();
 

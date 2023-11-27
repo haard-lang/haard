@@ -17,7 +17,7 @@ namespace haard {
         AST_EXPRESSION_UNKNOWN,
         AST_ASSIGNMENT,
 
-        AST_PLUS,
+        EXPR_PLUS,
         AST_MINUS,
 
         AST_TIMES,
@@ -26,6 +26,12 @@ namespace haard {
         AST_INTEGER_DIVISION,
 
         AST_UNARY_PLUS,
+        AST_DOT,
+        AST_ARROW,
+        AST_INDEX,
+
+        AST_POS_INC,
+        AST_POS_DEC,
 
         AST_BOOL,
         AST_CHAR,

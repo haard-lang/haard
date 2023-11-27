@@ -1,0 +1,7 @@
+def main : void
+
+    a = obj.field
+    a = obj->field
+    a = a++
+    a = a--
+    a[a + a.foo + a->bar]
