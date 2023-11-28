@@ -87,8 +87,6 @@ int main() {
     gen_file("shift_right_arithmetic_assignment");
     gen_file("shift_right_logical_assignment");
 
-    gen_file("cast");
-
     gen_file("logical_or");
     gen_file("logical_and");
 

@@ -2,15 +2,27 @@
 
 using namespace haard;
 
-Cast::Cast(Expression* left, Expression* right) {
+Cast::Cast(Expression* expression, Type* type) {
     set_kind(EXPR_CAST);
-    set_left(left);
-    set_right(right);
+    set_expression(expression);
+    set_type(type);
 }
 
-Cast::Cast(Token& token, Expression* left, Expression* right) {
+Cast::Cast(Token& token, Expression* expression, Type* type) {
     set_kind(EXPR_CAST);
-    set_left(left);
-    set_right(right);
+    set_expression(expression);
+    set_type(type);
     set_token(token);
+}
+
+Cast::~Cast() {
+    delete expression;
+}
+
+Expression* Cast::get_expression() const {
+    return expression;
+}
+
+void Cast::set_expression(Expression* newExpression) {
+    expression = newExpression;
 }

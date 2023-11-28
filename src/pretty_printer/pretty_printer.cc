@@ -117,6 +117,8 @@ void PrettyPrinter::print_expression_statement(ExpressionStatement* stmt) {
 }
 
 void PrettyPrinter::print_expression(Expression* expr) {
+    BinaryOperator* bin = (BinaryOperator*) expr;
+
     switch (expr->get_kind()) {
     case AST_ID:
         print_identifier((Identifier*) expr);
@@ -124,95 +126,41 @@ void PrettyPrinter::print_expression(Expression* expr) {
 
     // Binary operators
     case EXPR_ASSIGNMENT:
-        print_binary_operator((BinaryOperator*) expr, "=");
-        break;
-
     case EXPR_BITWISE_AND_ASSIGNMENT:
-        print_binary_operator((BinaryOperator*) expr, "&=");
-        break;
-
     case EXPR_BITWISE_XOR_ASSIGNMENT:
-        print_binary_operator((BinaryOperator*) expr, "^=");
-        break;
-
     case EXPR_BITWISE_OR_ASSIGNMENT:
-        print_binary_operator((BinaryOperator*) expr, "|=");
-        break;
-
     case EXPR_BITWISE_NOT_ASSIGNMENT:
-        print_binary_operator((BinaryOperator*) expr, "~=");
-        break;
-
     case EXPR_DIVISION_ASSIGNMENT:
-        print_binary_operator((BinaryOperator*) expr, "/=");
-        break;
-
     case EXPR_INTEGER_DIVISION_ASSIGNMENT:
-        print_binary_operator((BinaryOperator*) expr, "//=");
-        break;
-
     case EXPR_MINUS_ASSIGNMENT:
-        print_binary_operator((BinaryOperator*) expr, "-=");
-        break;
-
     case EXPR_MODULO_ASSIGNMENT:
-        print_binary_operator((BinaryOperator*) expr, "%=");
-        break;
-
     case EXPR_PLUS_ASSIGNMENT:
-        print_binary_operator((BinaryOperator*) expr, "+=");
-        break;
-
     case EXPR_TIMES_ASSIGNMENT:
-        print_binary_operator((BinaryOperator*) expr, "*=");
-        break;
-
     case EXPR_SHIFT_LEFT_LOGICAL_ASSIGNMENT:
-        print_binary_operator((BinaryOperator*) expr, "<<=");
-        break;
-
     case EXPR_SHIFT_RIGHT_ARITHMETIC_ASSIGNMENT:
-        print_binary_operator((BinaryOperator*) expr, ">>=");
-        break;
-
     case EXPR_SHIFT_RIGHT_LOGICAL_ASSIGNMENT:
-        print_binary_operator((BinaryOperator*) expr, ">>>=");
-        break;
-
+    case EXPR_LOGICAL_OR:
+    case EXPR_LOGICAL_AND:
     case EXPR_PLUS:
-        print_binary_operator((BinaryOperator*) expr, "+");
-        break;
-
     case EXPR_MINUS:
-        print_binary_operator((BinaryOperator*) expr, "-");
-        break;
-
     case EXPR_TIMES:
-        print_binary_operator((BinaryOperator*) expr, "*");
-        break;
-
     case EXPR_DIVISION:
-        print_binary_operator((BinaryOperator*) expr, "/");
-        break;
-
     case EXPR_MODULO:
-        print_binary_operator((BinaryOperator*) expr, "%");
-        break;
-
     case EXPR_INTEGER_DIVISION:
-        print_binary_operator((BinaryOperator*) expr, "//");
+        print_binary_operator(bin);
         break;
 
     case EXPR_DOT:
-        print_binary_operator((BinaryOperator*) expr, ".", true);
+    case EXPR_ARROW:
+        print_binary_operator(bin, true);
         break;
 
-    case EXPR_ARROW:
-        print_binary_operator((BinaryOperator*) expr, "->", true);
+    case EXPR_CAST:
+        print_cast_expression((Cast*) expr);
         break;
 
     case EXPR_INDEX:
-        print_index_expression((BinaryOperator*) expr);
+        print_index_expression(bin);
         break;
 
     case EXPR_UNARY_PLUS:
@@ -229,6 +177,12 @@ void PrettyPrinter::print_expression(Expression* expr) {
     }
 }
 
+void PrettyPrinter::print_cast_expression(Cast* expr) {
+    print_expression(expr->get_expression());
+    out << " as ";
+    print_type(expr->get_type());
+}
+
 void PrettyPrinter::print_index_expression(BinaryOperator* bin) {
     print_expression(bin->get_left());
     out << '[';
@@ -237,9 +191,11 @@ void PrettyPrinter::print_index_expression(BinaryOperator* bin) {
     out << ']';
 }
 
-void PrettyPrinter::print_binary_operator(BinaryOperator* bin, const char* oper, bool no_space) {
+void PrettyPrinter::print_binary_operator(BinaryOperator* bin, bool no_space) {
     out << "(";
     print_expression(bin->get_left());
+
+    const char* oper = bin->get_token().get_value();
 
     if (no_space) {
         out << oper;

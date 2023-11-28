@@ -1,4 +1,15 @@
 def main : void
+    # logical and
+    a = a and b
+    a = a && b
+
+    # logical or
+    a = a or a
+    a = a || a
+
+    # cast
+    a = a as int
+    a = a as [String]
 
     # assignments
     a = a

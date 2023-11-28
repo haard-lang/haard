@@ -34,6 +34,11 @@ namespace haard {
         Expression* parse_assignment_expression();
         Expression* parse_cast_expression();
 
+        Expression* parse_logical_or_expression();
+        Expression* parse_logical_and_expression();
+
+        Expression* parse_equality_expression();
+
         Expression* parse_arith_expression();
         Expression* parse_term_expression();
 

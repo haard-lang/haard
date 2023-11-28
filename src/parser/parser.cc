@@ -333,6 +333,60 @@ Expression* Parser::parse_assignment_expression() {
 }
 
 Expression* Parser::parse_cast_expression() {
+    Token oper;
+    Type* type = nullptr;
+    Expression* expr = parse_logical_or_expression();
+
+    if (match(TK_AS)) {
+        oper = matched;
+
+        if (next_token_on_same_line()) {
+            type = parse_type();
+        }
+
+        if (type == nullptr) {
+            assert(false && "missing type on cast expression");
+        }
+
+        expr = new Cast(oper, expr, type);
+    }
+
+    return expr;
+}
+
+Expression* Parser::parse_logical_or_expression() {
+    Token oper;
+    Expression* expr = parse_logical_and_expression();
+
+    while (true) {
+        if (match(TK_OR) || match(TK_LOGICAL_OR)) {
+            oper = matched;
+            expr = new LogicalOr(oper, expr, parse_logical_and_expression());
+        } else {
+            break;
+        }
+    }
+
+    return expr;
+}
+
+Expression* Parser::parse_logical_and_expression() {
+    Token oper;
+    Expression* expr = parse_equality_expression();
+
+    while (true) {
+        if (match(TK_AND) || match(TK_LOGICAL_AND)) {
+            oper = matched;
+            expr = new LogicalAnd(oper, expr, parse_equality_expression());
+        } else {
+            break;
+        }
+    }
+
+    return expr;
+}
+
+Expression* Parser::parse_equality_expression() {
     return parse_arith_expression();
 }
 

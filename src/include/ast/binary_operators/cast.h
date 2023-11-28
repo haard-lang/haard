@@ -4,10 +4,18 @@
 #include "binary_operator.h"
 
 namespace haard {
-    class Cast : public BinaryOperator {
+    class Cast : public Expression {
     public:
-        Cast(Expression* left=nullptr, Expression* right=nullptr);
-        Cast(Token& token, Expression* left=nullptr, Expression* right=nullptr);
+        Cast(Expression* expression=nullptr, Type* type=nullptr);
+        Cast(Token& token, Expression* expression=nullptr, Type* type=nullptr);
+        ~Cast();
+
+    public:
+        Expression *get_expression() const;
+        void set_expression(Expression *newExpression);
+
+    private:
+        Expression* expression;
     };
 }
 

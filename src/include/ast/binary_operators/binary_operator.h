@@ -11,10 +11,10 @@ namespace haard {
         ~BinaryOperator();
 
         Expression* get_left() const;
-        void set_left(Expression *newLeft);
+        void set_left(Expression* newLeft);
 
-        Expression *get_right() const;
-        void set_right(Expression *newRight);
+        Expression* get_right() const;
+        void set_right(Expression* newRight);
 
     private:
         Expression* left;
