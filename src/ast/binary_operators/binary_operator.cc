@@ -1,4 +1,4 @@
-#include "ast/binary_operator.h"
+#include "ast/binary_operators/binary_operator.h"
 
 using namespace haard;
 

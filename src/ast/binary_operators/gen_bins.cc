@@ -37,33 +37,37 @@ std::string to_camel(std::string s) {
     return ss.str();
 }
 
-std::string gen(std::string kind, std::string class_name) {
+std::string gen(std::string kind, std::string class_name, std::string header) {
     std::stringstream ss;
 
-    ss << "#ifndef HAARD_" << kind << "_H\n";
-    ss << "#define HAARD_" << kind << "_H\n\n";
+    ss << "#include \"ast/binary_operators/" << header << ".h\"\n\n";
 
-    ss << "#include \"binary_operator.h\"\n\n";
+    ss << "using namespace haard;\n\n";
 
-    ss << "namespace haard {\n";
-    ss << "    class " << class_name << " : public BinaryOperator {\n";
-    ss << "    public:\n";
-    ss << "        " << class_name << "(Expression* left=nullptr, Expression* right=nullptr);\n";
-    ss << "        " << class_name << "(Token& token, Expression* left=nullptr, Expression* right=nullptr);\n";
-    ss << "    };\n";
+    ss << class_name << "::" << class_name;
+    ss << "(Expression* left, Expression* right) {\n";
+    ss << "    set_kind(" << kind << ");\n";
+    ss << "    set_left(left);\n";
+    ss << "    set_right(right);\n";
     ss << "}\n\n";
 
-    ss << "#endif";
+    ss << class_name << "::" << class_name;
+    ss << "(Token& token, Expression* left, Expression* right) {\n";
+    ss << "    set_kind(" << kind << ");\n";
+    ss << "    set_left(left);\n";
+    ss << "    set_right(right);\n";
+    ss << "    set_token(token);\n";
+    ss << "}\n";
 
     return ss.str();
 }
 
-void gen_file(std::string path) {
-    std::ofstream file(path + ".h");
+void gen_file(std::string header) {
+    std::string kind = "EXPR_" + to_upper(header);
+    std::string class_name = to_camel(header);
+    std::ofstream file(header + ".cc");
 
-    std::string kind = "AST_" + to_upper(path);
-    std::string class_name = to_camel(path);
-    file << gen(kind, class_name);
+    file << gen(kind, class_name, header);
     file.close();
 }
 
@@ -124,5 +128,6 @@ int main() {
     gen_file("arrow");
     gen_file("index");
     gen_file("call");
+
     return 0;
 }

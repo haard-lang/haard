@@ -190,53 +190,53 @@ Type* Parser::parse_primary_type() {
     Type* type = nullptr;
 
     if (match(TK_INT)) {
-       type = new Type(AST_INT, matched);
+       type = new Type(TYPE_INT, matched);
     } else if (match(TK_UINT)) {
-       type = new Type(AST_UINT, matched);
+       type = new Type(TYPE_UINT, matched);
     } else if (match(TK_FLOAT)) {
-       type = new Type(AST_FLOAT, matched);
+       type = new Type(TYPE_FLOAT, matched);
     } else if (match(TK_DOUBLE)) {
-       type = new Type(AST_DOUBLE, matched);
+       type = new Type(TYPE_DOUBLE, matched);
     } else if (match(TK_SHORT)) {
-       type = new Type(AST_SHORT, matched);
+       type = new Type(TYPE_SHORT, matched);
     } else if (match(TK_USHORT)) {
-       type = new Type(AST_USHORT, matched);
+       type = new Type(TYPE_USHORT, matched);
     } else if (match(TK_LONG)) {
-       type = new Type(AST_LONG, matched);
+       type = new Type(TYPE_LONG, matched);
     } else if (match(TK_ULONG)) {
-       type = new Type(AST_ULONG, matched);
+       type = new Type(TYPE_ULONG, matched);
     } else if (match(TK_CHAR)) {
-       type = new Type(AST_CHAR, matched);
+       type = new Type(TYPE_CHAR, matched);
     } else if (match(TK_UCHAR)) {
-       type = new Type(AST_UCHAR, matched);
+       type = new Type(TYPE_UCHAR, matched);
     } else if (match(TK_SYMBOL)) {
-       type = new Type(AST_SYMBOL, matched);
+       type = new Type(TYPE_SYMBOL, matched);
     } else if (match(TK_VOID)) {
-       type = new Type(AST_VOID, matched);
+       type = new Type(TYPE_VOID, matched);
     } else if (match(TK_BOOL)) {
-       type = new Type(AST_BOOL, matched);
+       type = new Type(TYPE_BOOL, matched);
     } else if (match(TK_STR)) {
-       type = new Type(AST_STR, matched);
+       type = new Type(TYPE_STR, matched);
     } else if (match(TK_I8)) {
-       type = new Type(AST_I8, matched);
+       type = new Type(TYPE_I8, matched);
     } else if (match(TK_I16)) {
-       type = new Type(AST_I16, matched);
+       type = new Type(TYPE_I16, matched);
     } else if (match(TK_I32)) {
-       type = new Type(AST_I32, matched);
+       type = new Type(TYPE_I32, matched);
     } else if (match(TK_I64)) {
-       type = new Type(AST_I64, matched);
+       type = new Type(TYPE_I64, matched);
     } else if (match(TK_U8)) {
-       type = new Type(AST_U8, matched);
+       type = new Type(TYPE_U8, matched);
     } else if (match(TK_U16)) {
-       type = new Type(AST_U16, matched);
+       type = new Type(TYPE_U16, matched);
     } else if (match(TK_U32)) {
-       type = new Type(AST_U32, matched);
+       type = new Type(TYPE_U32, matched);
     } else if (match(TK_U64)) {
-       type = new Type(AST_U64, matched);
+       type = new Type(TYPE_U64, matched);
     } else if (match(TK_F32)) {
-       type = new Type(AST_F32, matched);
+       type = new Type(TYPE_F32, matched);
     } else if (match(TK_F64)) {
-       type = new Type(AST_F64, matched);
+       type = new Type(TYPE_F64, matched);
     } else if (match(TK_LEFT_SQUARE_BRACKET)) {
         type = parse_type();
 
@@ -283,7 +283,7 @@ Expression* Parser::parse_assignment_expression() {
 
     if (match(TK_ASSIGNMENT)) {
         oper = matched;
-        expr = new BinaryOperator(AST_ASSIGNMENT, oper, expr, parse_expression());
+        expr = new BinaryOperator(EXPR_ASSIGNMENT, oper, expr, parse_expression());
     }
 
     return expr;
@@ -339,7 +339,7 @@ Expression* Parser::parse_unary_expression() {
 
     if (match(TK_PLUS)) {
         oper = matched;
-        expr = new UnaryOperator(AST_UNARY_PLUS, oper, parse_identifier());
+        expr = new UnaryOperator(EXPR_UNARY_PLUS, oper, parse_identifier());
     } else {
         expr = parse_postfix_expression();
     }
@@ -354,13 +354,13 @@ Expression* Parser::parse_postfix_expression() {
     while (true) {
         if (match(TK_DOT)) {
             oper = matched;
-            expr = new BinaryOperator(AST_DOT, oper, expr, parse_identifier());
+            expr = new BinaryOperator(EXPR_DOT, oper, expr, parse_identifier());
         } else if (match(TK_ARROW)) {
             oper = matched;
-            expr = new BinaryOperator(AST_ARROW, oper, expr, parse_identifier());
+            expr = new BinaryOperator(EXPR_ARROW, oper, expr, parse_identifier());
         } else if (match(TK_LEFT_SQUARE_BRACKET)) {
             oper = matched;
-            expr = new BinaryOperator(AST_INDEX, oper, expr, parse_expression());
+            expr = new BinaryOperator(EXPR_INDEX, oper, expr, parse_expression());
             expect(TK_RIGHT_SQUARE_BRACKET);
         } else if (match_same_line(TK_LEFT_PARENTHESIS)) {
             oper = matched;
@@ -369,10 +369,10 @@ Expression* Parser::parse_postfix_expression() {
             expect(TK_RIGHT_PARENTHESIS);
         } else if (match_same_line(TK_INC)) {
             oper = matched;
-            expr = new UnaryOperator(AST_POS_INC, oper, expr);
+            expr = new UnaryOperator(EXPR_POS_INC, oper, expr);
         } else if (match_same_line(TK_DEC)) {
             oper = matched;
-            expr = new UnaryOperator(AST_POS_DEC, oper, expr);
+            expr = new UnaryOperator(EXPR_POS_DEC, oper, expr);
         } else {
             break;
         }

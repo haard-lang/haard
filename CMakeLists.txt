@@ -17,6 +17,67 @@ set(TOKEN_SRC
     src/token/token.cc
 )
 
+set(AST_BINOPS_SRC
+    src/ast/binary_operators/binary_operator.cc
+
+    src/ast/binary_operators/assignment.cc
+    src/ast/binary_operators/bitwise_and_assignment.cc
+    src/ast/binary_operators/bitwise_xor_assignment.cc
+    src/ast/binary_operators/bitwise_or_assignment.cc
+    src/ast/binary_operators/bitwise_not_assignment.cc
+    src/ast/binary_operators/division_assignment.cc
+    src/ast/binary_operators/integer_division_assignment.cc
+    src/ast/binary_operators/minus_assignment.cc
+    src/ast/binary_operators/modulo_assignment.cc
+    src/ast/binary_operators/plus_assignment.cc
+    src/ast/binary_operators/times_assignment.cc
+    src/ast/binary_operators/shift_left_logical_assignment.cc
+    src/ast/binary_operators/shift_right_arithmetic_assignment.cc
+    src/ast/binary_operators/shift_right_logical_assignment.cc
+
+    src/ast/binary_operators/cast.cc
+
+    src/ast/binary_operators/logical_or.cc
+    src/ast/binary_operators/logical_and.cc
+
+    src/ast/binary_operators/equal.cc
+    src/ast/binary_operators/not_equal.cc
+
+    src/ast/binary_operators/less_than.cc
+    src/ast/binary_operators/greater_than.cc
+    src/ast/binary_operators/less_than_or_equal.cc
+    src/ast/binary_operators/greater_than_or_equal.cc
+
+    src/ast/binary_operators/in.cc
+    src/ast/binary_operators/not_in.cc
+
+    src/ast/binary_operators/inclusive_range.cc
+    src/ast/binary_operators/exclusive_range.cc
+
+    src/ast/binary_operators/plus.cc
+    src/ast/binary_operators/minus.cc
+
+    src/ast/binary_operators/times.cc
+    src/ast/binary_operators/division.cc
+    src/ast/binary_operators/modulo.cc
+    src/ast/binary_operators/integer_division.cc
+
+    src/ast/binary_operators/power.cc
+
+    src/ast/binary_operators/bitwise_or.cc
+    src/ast/binary_operators/bitwise_xor.cc
+    src/ast/binary_operators/bitwise_and.cc
+
+    src/ast/binary_operators/shift_left_logical.cc
+    src/ast/binary_operators/shift_right_arithmetic.cc
+    src/ast/binary_operators/shift_right_logical.cc
+
+    src/ast/binary_operators/dot.cc
+    src/ast/binary_operators/arrow.cc
+    src/ast/binary_operators/index.cc
+    src/ast/binary_operators/call.cc
+)
+
 set(AST_SRC
     src/ast/ast_node.cc
     src/ast/declaration.cc
@@ -38,13 +99,9 @@ set(AST_SRC
     src/ast/compound_statement.cc
     src/ast/expression_statement.cc
     src/ast/expression.cc
-    src/ast/binary_operator.cc
-    src/ast/plus.cc
-    src/ast/minus.cc
-    src/ast/times.cc
-    src/ast/division.cc
-    src/ast/modulo.cc
-    src/ast/integer_division.cc
+
+    ${AST_BINOPS_SRC}
+
     src/ast/unary_operator.cc
     src/ast/identifier.cc
 )

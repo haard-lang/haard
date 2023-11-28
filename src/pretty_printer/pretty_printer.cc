@@ -122,7 +122,7 @@ void PrettyPrinter::print_expression(Expression* expr) {
         print_identifier((Identifier*) expr);
         break;
 
-    case AST_ASSIGNMENT:
+    case EXPR_ASSIGNMENT:
         print_binary_operator((BinaryOperator*) expr, "=");
         break;
 
@@ -130,47 +130,47 @@ void PrettyPrinter::print_expression(Expression* expr) {
         print_binary_operator((BinaryOperator*) expr, "+");
         break;
 
-    case AST_MINUS:
+    case EXPR_MINUS:
         print_binary_operator((BinaryOperator*) expr, "-");
         break;
 
-    case AST_TIMES:
+    case EXPR_TIMES:
         print_binary_operator((BinaryOperator*) expr, "*");
         break;
 
-    case AST_DIVISION:
+    case EXPR_DIVISION:
         print_binary_operator((BinaryOperator*) expr, "/");
         break;
 
-    case AST_MODULO:
+    case EXPR_MODULO:
         print_binary_operator((BinaryOperator*) expr, "%");
         break;
 
-    case AST_INTEGER_DIVISION:
+    case EXPR_INTEGER_DIVISION:
         print_binary_operator((BinaryOperator*) expr, "//");
         break;
 
-    case AST_DOT:
+    case EXPR_DOT:
         print_binary_operator((BinaryOperator*) expr, ".", true);
         break;
 
-    case AST_ARROW:
+    case EXPR_ARROW:
         print_binary_operator((BinaryOperator*) expr, "->", true);
         break;
 
-    case AST_INDEX:
+    case EXPR_INDEX:
         print_index_expression((BinaryOperator*) expr);
         break;
 
-    case AST_UNARY_PLUS:
+    case EXPR_UNARY_PLUS:
         print_unary_operator((UnaryOperator*) expr, "+");
         break;
 
-    case AST_POS_INC:
+    case EXPR_POS_INC:
         print_unary_operator((UnaryOperator*) expr, "++", true);
         break;
 
-    case AST_POS_DEC:
+    case EXPR_POS_DEC:
         print_unary_operator((UnaryOperator*) expr, "--", true);
         break;
     }
@@ -218,99 +218,99 @@ void PrettyPrinter::print_type(Type* type) {
     int kind = type->get_kind();
 
     switch (kind) {
-    case AST_I8:
+    case TYPE_I8:
         out << "i8";
         break;
 
-    case AST_U8:
+    case TYPE_U8:
         out << "u8";
         break;
 
-    case AST_I16:
+    case TYPE_I16:
         out << "i16";
         break;
 
-    case AST_U16:
+    case TYPE_U16:
         out << "u16";
         break;
 
-    case AST_I32:
+    case TYPE_I32:
         out << "i32";
         break;
 
-    case AST_U32:
+    case TYPE_U32:
         out << "u32";
         break;
 
-    case AST_I64:
+    case TYPE_I64:
         out << "i64";
         break;
 
-    case AST_U64:
+    case TYPE_U64:
         out << "u64";
         break;
 
-    case AST_F32:
+    case TYPE_F32:
         out << "f32";
         break;
 
-    case AST_F64:
+    case TYPE_F64:
         out << "f64";
         break;
 
-    case AST_CHAR:
+    case TYPE_CHAR:
         out << "char";
         break;
 
-    case AST_UCHAR:
+    case TYPE_UCHAR:
         out << "uchar";
         break;
 
-    case AST_SHORT:
+    case TYPE_SHORT:
         out << "short";
         break;
 
-    case AST_USHORT:
+    case TYPE_USHORT:
         out << "ushort";
         break;
 
-    case AST_INT:
+    case TYPE_INT:
         out << "int";
         break;
 
-    case AST_UINT:
+    case TYPE_UINT:
         out << "uint";
         break;
 
-    case AST_LONG:
+    case TYPE_LONG:
         out << "long";
         break;
 
-    case AST_ULONG:
+    case TYPE_ULONG:
         out << "ulong";
         break;
 
-    case AST_FLOAT:
+    case TYPE_FLOAT:
         out << "float";
         break;
 
-    case AST_DOUBLE:
+    case TYPE_DOUBLE:
         out << "double";
         break;
 
-    case AST_VOID:
+    case TYPE_VOID:
         out << "void";
         break;
 
-    case AST_STR:
+    case TYPE_STR:
         out << "str";
         break;
 
-    case AST_SYMBOL:
+    case TYPE_SYMBOL:
         out << "sym";
         break;
 
-    case AST_BOOL:
+    case TYPE_BOOL:
         out << "bool";
         break;
 
@@ -328,7 +328,7 @@ void PrettyPrinter::print_type(Type* type) {
         print_function_type((FunctionType*) type);
         break;
 
-    case AST_NAMED:
+    case TYPE_NAMED:
         print_named_type((NamedType*) type);
         break;
     }

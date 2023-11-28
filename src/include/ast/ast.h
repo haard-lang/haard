@@ -20,15 +20,66 @@
 #include "ast/named_type.h"
 
 #include "ast/expression.h"
-#include "ast/binary_operator.h"
 
-#include "ast/plus.h"
-#include "ast/minus.h"
+// Binary operators
+#include "ast/binary_operators/binary_operator.h"
 
-#include "ast/times.h"
-#include "ast/division.h"
-#include "ast/modulo.h"
-#include "ast/integer_division.h"
+#include "ast/binary_operators/assignment.h"
+#include "ast/binary_operators/bitwise_and_assignment.h"
+#include "ast/binary_operators/bitwise_xor_assignment.h"
+#include "ast/binary_operators/bitwise_or_assignment.h"
+#include "ast/binary_operators/bitwise_not_assignment.h"
+#include "ast/binary_operators/division_assignment.h"
+#include "ast/binary_operators/integer_division_assignment.h"
+#include "ast/binary_operators/minus_assignment.h"
+#include "ast/binary_operators/modulo_assignment.h"
+#include "ast/binary_operators/plus_assignment.h"
+#include "ast/binary_operators/times_assignment.h"
+#include "ast/binary_operators/shift_left_logical_assignment.h"
+#include "ast/binary_operators/shift_right_arithmetic_assignment.h"
+#include "ast/binary_operators/shift_right_logical_assignment.h"
+
+#include "ast/binary_operators/cast.h"
+
+#include "ast/binary_operators/logical_or.h"
+#include "ast/binary_operators/logical_and.h"
+
+#include "ast/binary_operators/equal.h"
+#include "ast/binary_operators/not_equal.h"
+
+#include "ast/binary_operators/less_than.h"
+#include "ast/binary_operators/greater_than.h"
+#include "ast/binary_operators/less_than_or_equal.h"
+#include "ast/binary_operators/greater_than_or_equal.h"
+
+#include "ast/binary_operators/in.h"
+#include "ast/binary_operators/not_in.h"
+
+#include "ast/binary_operators/inclusive_range.h"
+#include "ast/binary_operators/exclusive_range.h"
+
+#include "ast/binary_operators/plus.h"
+#include "ast/binary_operators/minus.h"
+
+#include "ast/binary_operators/times.h"
+#include "ast/binary_operators/division.h"
+#include "ast/binary_operators/modulo.h"
+#include "ast/binary_operators/integer_division.h"
+
+#include "ast/binary_operators/power.h"
+
+#include "ast/binary_operators/bitwise_or.h"
+#include "ast/binary_operators/bitwise_xor.h"
+#include "ast/binary_operators/bitwise_and.h"
+
+#include "ast/binary_operators/shift_left_logical.h"
+#include "ast/binary_operators/shift_right_arithmetic.h"
+#include "ast/binary_operators/shift_right_logical.h"
+
+#include "ast/binary_operators/dot.h"
+#include "ast/binary_operators/arrow.h"
+#include "ast/binary_operators/index.h"
+#include "ast/binary_operators/call.h"
 
 #include "ast/unary_operator.h"
 #include "ast/identifier.h"

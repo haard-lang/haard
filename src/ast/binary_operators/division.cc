@@ -1,15 +1,15 @@
-#include "ast/division.h"
+#include "ast/binary_operators/division.h"
 
 using namespace haard;
 
 Division::Division(Expression* left, Expression* right) {
-    set_kind(AST_DIVISION);
+    set_kind(EXPR_DIVISION);
     set_left(left);
     set_right(right);
 }
 
 Division::Division(Token& token, Expression* left, Expression* right) {
-    set_kind(AST_DIVISION);
+    set_kind(EXPR_DIVISION);
     set_left(left);
     set_right(right);
     set_token(token);

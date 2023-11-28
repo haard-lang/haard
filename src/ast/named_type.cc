@@ -3,7 +3,7 @@
 using namespace haard;
 
 NamedType::NamedType(Identifier* id) {
-    set_kind(AST_NAMED);
+    set_kind(TYPE_NAMED);
     set_identifier(id);
 }
 
