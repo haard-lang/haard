@@ -118,6 +118,7 @@ void PrettyPrinter::print_expression_statement(ExpressionStatement* stmt) {
 
 void PrettyPrinter::print_expression(Expression* expr) {
     BinaryOperator* bin = (BinaryOperator*) expr;
+    UnaryOperator* un = (UnaryOperator*) expr;
 
     switch (expr->get_kind()) {
     case AST_ID:
@@ -184,15 +185,12 @@ void PrettyPrinter::print_expression(Expression* expr) {
         break;
 
     case EXPR_UNARY_PLUS:
-        print_unary_operator((UnaryOperator*) expr, "+");
+        print_unary_operator(un);
         break;
 
     case EXPR_POS_INC:
-        print_unary_operator((UnaryOperator*) expr, "++", true);
-        break;
-
     case EXPR_POS_DEC:
-        print_unary_operator((UnaryOperator*) expr, "--", true);
+        print_unary_operator(un, true);
         break;
     }
 }
@@ -233,8 +231,10 @@ void PrettyPrinter::print_binary_operator(BinaryOperator* bin, bool no_space) {
     out << ")";
 }
 
-void PrettyPrinter::print_unary_operator(UnaryOperator* un, const char* oper, bool last) {
+void PrettyPrinter::print_unary_operator(UnaryOperator* un, bool last) {
     out << "(";
+
+    const char* oper = un->get_token().get_value();
 
     if (last) {
         print_expression(un->get_expression());

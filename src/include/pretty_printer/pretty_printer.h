@@ -29,7 +29,7 @@ namespace haard {
         void print_index_expression(BinaryOperator* bin);
         void print_binary_operator(BinaryOperator* bin, bool no_space=false);
 
-        void print_unary_operator(UnaryOperator* un, const char* oper, bool last=true);
+        void print_unary_operator(UnaryOperator* un, bool last=true);
 
         void print_type(Type* type);
         void print_subtyped_type(SubtypedType* type);
