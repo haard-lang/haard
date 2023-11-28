@@ -25,6 +25,7 @@ namespace haard {
         void print_expression(Expression* expr);
 
         void print_cast_expression(Cast* expr);
+        void print_not_in_expression(NotIn* expr);
         void print_index_expression(BinaryOperator* bin);
         void print_binary_operator(BinaryOperator* bin, bool no_space=false);
 

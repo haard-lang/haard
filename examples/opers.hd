@@ -1,4 +1,43 @@
 def main : void
+    # shift
+    a = a << a
+    a = a >> a
+    a = a >>> a
+
+    # bitwise
+    a = a | b
+    a = a ^ b
+    a = a & b
+
+    # power
+    a = a * a ** b
+
+    # term
+    a = a * a
+    a = a / a
+    a = a // a
+    a = a % a
+
+    # arith
+    a = a + a
+    a = a - a
+
+    # range
+    a = a .. b
+    a = a ... b
+
+    # comparison
+    a = a > a
+    a = a < a
+    a = a >= a
+    a = a <= a
+    a = a in a
+    a = a not in a
+
+    # equality
+    a = a == a
+    a = a != a
+
     # logical and
     a = a and b
     a = a && b

@@ -141,12 +141,28 @@ void PrettyPrinter::print_expression(Expression* expr) {
     case EXPR_SHIFT_RIGHT_LOGICAL_ASSIGNMENT:
     case EXPR_LOGICAL_OR:
     case EXPR_LOGICAL_AND:
+    case EXPR_EQUAL:
+    case EXPR_NOT_EQUAL:
+    case EXPR_LESS_THAN:
+    case EXPR_LESS_THAN_OR_EQUAL:
+    case EXPR_GREATER_THAN:
+    case EXPR_GREATER_THAN_OR_EQUAL:
+    case EXPR_IN:
+    case EXPR_INCLUSIVE_RANGE:
+    case EXPR_EXCLUSIVE_RANGE:
     case EXPR_PLUS:
     case EXPR_MINUS:
     case EXPR_TIMES:
     case EXPR_DIVISION:
     case EXPR_MODULO:
     case EXPR_INTEGER_DIVISION:
+    case EXPR_POWER:
+    case EXPR_BITWISE_OR:
+    case EXPR_BITWISE_XOR:
+    case EXPR_BITWISE_AND:
+    case EXPR_SHIFT_LEFT_LOGICAL:
+    case EXPR_SHIFT_RIGHT_ARITHMETIC:
+    case EXPR_SHIFT_RIGHT_LOGICAL:
         print_binary_operator(bin);
         break;
 
@@ -157,6 +173,10 @@ void PrettyPrinter::print_expression(Expression* expr) {
 
     case EXPR_CAST:
         print_cast_expression((Cast*) expr);
+        break;
+
+    case EXPR_NOT_IN:
+        print_not_in_expression((NotIn*) expr);
         break;
 
     case EXPR_INDEX:
@@ -181,6 +201,12 @@ void PrettyPrinter::print_cast_expression(Cast* expr) {
     print_expression(expr->get_expression());
     out << " as ";
     print_type(expr->get_type());
+}
+
+void PrettyPrinter::print_not_in_expression(NotIn* expr) {
+    print_expression(expr->get_left());
+    out << " not in ";
+    print_expression(expr->get_right());
 }
 
 void PrettyPrinter::print_index_expression(BinaryOperator* bin) {

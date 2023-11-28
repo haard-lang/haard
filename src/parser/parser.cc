@@ -387,7 +387,73 @@ Expression* Parser::parse_logical_and_expression() {
 }
 
 Expression* Parser::parse_equality_expression() {
-    return parse_arith_expression();
+    Token oper;
+    Expression* expr = parse_relational_expression();
+
+    while (true) {
+        if (match(TK_EQ)) {
+            oper = matched;
+            expr = new Equal(oper, expr, parse_relational_expression());
+        } else if (match(TK_NE)) {
+            oper = matched;
+            expr = new NotEqual(oper, expr, parse_relational_expression());
+        } else {
+            break;
+        }
+    }
+
+    return expr;
+}
+
+Expression* Parser::parse_relational_expression() {
+    Token oper;
+    Expression* expr = parse_range_expression();
+
+    while (true) {
+        if (match(TK_LT)) {
+            oper = matched;
+            expr = new LessThan(oper, expr, parse_range_expression());
+        } else if (match(TK_GT)) {
+            oper = matched;
+            expr = new GreaterThan(oper, expr, parse_range_expression());
+        } else if (match(TK_LE)) {
+            oper = matched;
+            expr = new LessThanOrEqual(oper, expr, parse_range_expression());
+        } else if (match(TK_GE)) {
+            oper = matched;
+            expr = new GreaterThanOrEqual(oper, expr, parse_range_expression());
+        } else if (match(TK_IN)) {
+            oper = matched;
+            expr = new In(oper, expr, parse_range_expression());
+        } else if (match(TK_NOT)) {
+            oper = matched;
+            expect(TK_IN);
+            expr = new NotIn(oper, expr, parse_range_expression());
+        } else {
+            break;
+        }
+    }
+
+    return expr;
+}
+
+Expression* Parser::parse_range_expression() {
+    Token oper;
+    Expression* expr = parse_arith_expression();
+
+    while (true) {
+        if (match(TK_INCLUSIVE_RANGE)) {
+            oper = matched;
+            expr = new InclusiveRange(oper, expr, parse_arith_expression());
+        } else if (match(TK_EXCLUSIVE_RANGE)) {
+            oper = matched;
+            expr = new ExclusiveRange(oper, expr, parse_arith_expression());
+        } else {
+            break;
+        }
+    }
+
+    return expr;
 }
 
 Expression* Parser::parse_arith_expression() {
@@ -411,21 +477,107 @@ Expression* Parser::parse_arith_expression() {
 
 Expression* Parser::parse_term_expression() {
     Token oper;
-    Expression* expr = parse_unary_expression();
+    Expression* expr = parse_power_expression();
 
     while (true) {
         if (match_same_line(TK_TIMES)) {
             oper = matched;
-            expr = new Times(oper, expr, parse_unary_expression());
+            expr = new Times(oper, expr, parse_power_expression());
         } else if (match_same_line(TK_DIVISION)) {
             oper = matched;
-            expr = new Division(oper, expr, parse_unary_expression());
+            expr = new Division(oper, expr, parse_power_expression());
         } else if (match_same_line(TK_MODULO)) {
             oper = matched;
-            expr = new Modulo(oper, expr, parse_unary_expression());
+            expr = new Modulo(oper, expr, parse_power_expression());
         } else if (match_same_line(TK_INTEGER_DIVISION)) {
             oper = matched;
-            expr = new IntegerDivision(oper, expr, parse_unary_expression());
+            expr = new IntegerDivision(oper, expr, parse_power_expression());
+        } else {
+            break;
+        }
+    }
+
+    return expr;
+}
+
+Expression* Parser::parse_power_expression() {
+    Token oper;
+    Expression* expr = parse_bitwise_or_expression();
+
+    while (true) {
+        if (match(TK_POWER)) {
+            oper = matched;
+            expr = new Power(oper, expr, parse_bitwise_or_expression());
+        } else {
+            break;
+        }
+    }
+
+    return expr;
+}
+
+Expression* Parser::parse_bitwise_or_expression() {
+    Token oper;
+    Expression* expr = parse_bitwise_xor_expression();
+
+    while (true) {
+        if (match(TK_BITWISE_OR)) {
+            oper = matched;
+            expr = new BitwiseOr(oper, expr, parse_bitwise_xor_expression());
+        } else {
+            break;
+        }
+    }
+
+    return expr;
+}
+
+Expression* Parser::parse_bitwise_xor_expression() {
+    Token oper;
+    Expression* expr = parse_bitwise_and_expression();
+
+    while (true) {
+        if (match(TK_BITWISE_XOR)) {
+            oper = matched;
+            expr = new BitwiseXor(oper, expr, parse_bitwise_and_expression());
+        } else {
+            break;
+        }
+    }
+
+    return expr;
+}
+
+Expression* Parser::parse_bitwise_and_expression() {
+    Token oper;
+    Expression* expr = parse_shift_expression();
+
+    while (true) {
+        if (match(TK_BITWISE_AND)) {
+            oper = matched;
+            expr = new BitwiseAnd(oper, expr, parse_shift_expression());
+        } else {
+            break;
+        }
+    }
+
+    return expr;
+}
+
+Expression* Parser::parse_shift_expression() {
+    Token oper;
+    Expression* expr = parse_unary_expression();
+
+    while (true) {
+        if (match(TK_SLL)) {
+            oper = matched;
+            expr = new ShiftLeftLogical(oper, expr, parse_unary_expression());
+        } else if (match(TK_SRL)) {
+            oper = matched;
+            expr = new ShiftRightLogical(oper, expr, parse_unary_expression());
+        } else if (match(TK_SRA)) {
+            oper = matched;
+            expr = new ShiftRightArithmetic(oper, expr, parse_unary_expression());
         } else {
             break;
         }
@@ -643,4 +795,3 @@ bool Parser::next_token_on_same_line() {
 
     return false;
 }
-

@@ -11,8 +11,8 @@ namespace haard {
         ~Cast();
 
     public:
-        Expression *get_expression() const;
-        void set_expression(Expression *newExpression);
+        Expression* get_expression() const;
+        void set_expression(Expression* newExpression);
 
     private:
         Expression* expression;
