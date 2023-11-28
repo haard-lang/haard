@@ -122,8 +122,61 @@ void PrettyPrinter::print_expression(Expression* expr) {
         print_identifier((Identifier*) expr);
         break;
 
+    // Binary operators
     case EXPR_ASSIGNMENT:
         print_binary_operator((BinaryOperator*) expr, "=");
+        break;
+
+    case EXPR_BITWISE_AND_ASSIGNMENT:
+        print_binary_operator((BinaryOperator*) expr, "&=");
+        break;
+
+    case EXPR_BITWISE_XOR_ASSIGNMENT:
+        print_binary_operator((BinaryOperator*) expr, "^=");
+        break;
+
+    case EXPR_BITWISE_OR_ASSIGNMENT:
+        print_binary_operator((BinaryOperator*) expr, "|=");
+        break;
+
+    case EXPR_BITWISE_NOT_ASSIGNMENT:
+        print_binary_operator((BinaryOperator*) expr, "~=");
+        break;
+
+    case EXPR_DIVISION_ASSIGNMENT:
+        print_binary_operator((BinaryOperator*) expr, "/=");
+        break;
+
+    case EXPR_INTEGER_DIVISION_ASSIGNMENT:
+        print_binary_operator((BinaryOperator*) expr, "//=");
+        break;
+
+    case EXPR_MINUS_ASSIGNMENT:
+        print_binary_operator((BinaryOperator*) expr, "-=");
+        break;
+
+    case EXPR_MODULO_ASSIGNMENT:
+        print_binary_operator((BinaryOperator*) expr, "%=");
+        break;
+
+    case EXPR_PLUS_ASSIGNMENT:
+        print_binary_operator((BinaryOperator*) expr, "+=");
+        break;
+
+    case EXPR_TIMES_ASSIGNMENT:
+        print_binary_operator((BinaryOperator*) expr, "*=");
+        break;
+
+    case EXPR_SHIFT_LEFT_LOGICAL_ASSIGNMENT:
+        print_binary_operator((BinaryOperator*) expr, "<<=");
+        break;
+
+    case EXPR_SHIFT_RIGHT_ARITHMETIC_ASSIGNMENT:
+        print_binary_operator((BinaryOperator*) expr, ">>=");
+        break;
+
+    case EXPR_SHIFT_RIGHT_LOGICAL_ASSIGNMENT:
+        print_binary_operator((BinaryOperator*) expr, ">>>=");
         break;
 
     case EXPR_PLUS:

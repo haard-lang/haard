@@ -25,7 +25,7 @@ namespace haard {
         void print_expression(Expression* expr);
 
         void print_index_expression(BinaryOperator* bin);
-        void print_binary_operator(BinaryOperator* bin, const char* oper, bool no_space=true);
+        void print_binary_operator(BinaryOperator* bin, const char* oper, bool no_space=false);
 
         void print_unary_operator(UnaryOperator* un, const char* oper, bool last=true);
 

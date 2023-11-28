@@ -1,5 +1,21 @@
 def main : void
 
+    # assignments
+    a = a
+    a &= a
+    a ^= a
+    a |= a
+    a ~= a
+    a /= a
+    a //= a
+    a -= a
+    a %= a
+    a += a
+    a *= a
+    a <<= a
+    a >>= a
+    a >>>= a
+
     a = obj.field
     a = obj->field
     a = a++
