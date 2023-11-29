@@ -188,8 +188,8 @@ void PrettyPrinter::print_expression(Expression* expr) {
         print_unary_operator(un);
         break;
 
-    case EXPR_POS_INC:
-    case EXPR_POS_DEC:
+    case EXPR_POS_INCREMENT:
+    case EXPR_POS_DECREMENT:
         print_unary_operator(un, true);
         break;
     }

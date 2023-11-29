@@ -622,10 +622,10 @@ Expression* Parser::parse_postfix_expression() {
             expect(TK_RIGHT_PARENTHESIS);
         } else if (match_same_line(TK_INC)) {
             oper = matched;
-            expr = new UnaryOperator(EXPR_POS_INC, oper, expr);
+            expr = new UnaryOperator(EXPR_POS_INCREMENT, oper, expr);
         } else if (match_same_line(TK_DEC)) {
             oper = matched;
-            expr = new UnaryOperator(EXPR_POS_DEC, oper, expr);
+            expr = new UnaryOperator(EXPR_POS_DECREMENT, oper, expr);
         } else {
             break;
         }

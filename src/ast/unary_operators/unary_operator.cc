@@ -1,6 +1,10 @@
-#include "ast/unary_operator.h"
+#include "ast/unary_operators/unary_operator.h"
 
 using namespace haard;
+
+UnaryOperator::UnaryOperator() {
+    set_expression(nullptr);
+}
 
 UnaryOperator::UnaryOperator(int kind, Token& oper, Expression* expression) {
     set_kind(kind);

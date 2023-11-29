@@ -17,6 +17,24 @@ set(TOKEN_SRC
     src/token/token.cc
 )
 
+set(AST_UNOP_SRC
+    src/ast/unary_operators/unary_operator.cc
+    src/ast/unary_operators/unary_minus.cc
+    src/ast/unary_operators/unary_plus.cc
+    src/ast/unary_operators/address_of.cc
+    src/ast/unary_operators/dereference.cc
+    src/ast/unary_operators/logical_not.cc
+    src/ast/unary_operators/bitwise_not.cc
+    src/ast/unary_operators/pre_increment.cc
+    src/ast/unary_operators/pre_decrement.cc
+    src/ast/unary_operators/pos_increment.cc
+    src/ast/unary_operators/pos_decrement.cc
+    src/ast/unary_operators/sizeof.cc
+    src/ast/unary_operators/new.cc
+    src/ast/unary_operators/delete.cc
+    src/ast/unary_operators/delete_array.cc
+)
+
 set(AST_BINOPS_SRC
     src/ast/binary_operators/binary_operator.cc
 
@@ -100,9 +118,9 @@ set(AST_SRC
     src/ast/expression_statement.cc
     src/ast/expression.cc
 
+    ${AST_UNOP_SRC}
     ${AST_BINOPS_SRC}
 
-    src/ast/unary_operator.cc
     src/ast/identifier.cc
 )
 

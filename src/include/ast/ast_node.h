@@ -74,10 +74,21 @@ namespace haard {
         EXPR_INDEX,
         EXPR_CALL,
 
+        EXPR_ADDRESS_OF,
+        EXPR_DEREFERENCE,
         EXPR_UNARY_PLUS,
+        EXPR_UNARY_MINUS,
+        EXPR_LOGICAL_NOT,
+        EXPR_BITWISE_NOT,
+        EXPR_SIZEOF,
+        EXPR_NEW,
+        EXPR_DELETE,
+        EXPR_DELETE_ARRAY,
 
-        EXPR_POS_INC,
-        EXPR_POS_DEC,
+        EXPR_PRE_INCREMENT,
+        EXPR_PRE_DECREMENT,
+        EXPR_POS_INCREMENT,
+        EXPR_POS_DECREMENT,
 
         // Types
         TYPE_BOOL,

@@ -6,6 +6,7 @@
 namespace haard {
     class UnaryOperator : public Expression {
     public:
+        UnaryOperator();
         UnaryOperator(int kind, Token& oper, Expression* expression);
         ~UnaryOperator();
 

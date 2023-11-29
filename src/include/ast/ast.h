@@ -81,7 +81,7 @@
 #include "ast/binary_operators/index.h"
 #include "ast/binary_operators/call.h"
 
-#include "ast/unary_operator.h"
+#include "ast/unary_operators/unary_operator.h"
 #include "ast/identifier.h"
 
 #endif
