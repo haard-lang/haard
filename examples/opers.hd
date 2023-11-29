@@ -99,3 +99,8 @@ def main : void
     a = a++
     a = a--
     a[a + a.foo + a->bar]
+    a(a, b)
+    foo.bar(a, b)
+    foo.bar()
+    bar()
+    bar(bar(a[idx]))

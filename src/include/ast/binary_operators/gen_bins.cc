@@ -121,6 +121,6 @@ int main() {
     gen_file("dot");
     gen_file("arrow");
     gen_file("index");
-    gen_file("call");
+
     return 0;
 }

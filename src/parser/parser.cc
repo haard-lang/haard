@@ -651,8 +651,7 @@ Expression* Parser::parse_postfix_expression() {
             expect(TK_RIGHT_SQUARE_BRACKET);
         } else if (match_same_line(TK_LEFT_PARENTHESIS)) {
             oper = matched;
-            assert(false && "implement me");
-            //expr = new Call(oper, expr, parse_argument_list());
+            expr = new Call(oper, expr, parse_argument_list());
             expect(TK_RIGHT_PARENTHESIS);
         } else if (match_same_line(TK_INC)) {
             oper = matched;

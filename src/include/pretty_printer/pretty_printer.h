@@ -36,6 +36,7 @@ namespace haard {
         void print_new_expression(New* expr);
         void print_delete_expression(Delete* expr);
         void print_delete_array_expression(DeleteArray* expr);
+        void print_call_expression(Call* expr);
 
         void print_type(Type* type);
         void print_subtyped_type(SubtypedType* type);

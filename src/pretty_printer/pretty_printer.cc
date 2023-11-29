@@ -184,6 +184,10 @@ void PrettyPrinter::print_expression(Expression* expr) {
         print_index_expression(bin);
         break;
 
+    case EXPR_CALL:
+        print_call_expression((Call*) expr);
+        break;
+
     case EXPR_LOGICAL_NOT:
         print_logical_not_expression(un);
         break;
@@ -270,6 +274,16 @@ void PrettyPrinter::print_delete_expression(Delete* expr) {
 void PrettyPrinter::print_delete_array_expression(DeleteArray* expr) {
     out << "delete[] ";
     print_expression(expr->get_expression());
+}
+
+void PrettyPrinter::print_call_expression(Call* expr) {
+    print_expression(expr->get_object());
+
+    if (expr->get_arguments()) {
+        print_expression_list(expr->get_arguments(), "(", ")");
+    } else {
+        out << "()";
+    }
 }
 
 void PrettyPrinter::print_binary_operator(BinaryOperator* bin, bool no_space) {
