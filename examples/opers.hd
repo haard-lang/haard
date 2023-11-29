@@ -1,4 +1,9 @@
 def main : void
+    # new and delete
+    p = new int
+    p = new Foo()
+    p = new int[N_ELEMS]
+
     # unary
     a = &a
     a = *a
@@ -12,6 +17,8 @@ def main : void
     a = -a
     a = a++
     a = a--
+    a = sizeof(a)
+    a = sizeof(a as char)
 
     # shift
     a = a << a

@@ -188,6 +188,14 @@ void PrettyPrinter::print_expression(Expression* expr) {
         print_logical_not_expression(un);
         break;
 
+    case EXPR_SIZEOF:
+        print_sizeof_expression(un);
+        break;
+
+    case EXPR_NEW:
+        print_new_expression((New*) expr);
+        break;
+
     case EXPR_UNARY_PLUS:
     case EXPR_UNARY_MINUS:
     case EXPR_ADDRESS_OF:
@@ -231,6 +239,21 @@ void PrettyPrinter::print_logical_not_expression(UnaryOperator* un) {
     } else {
         out << "not ";
         print_expression(un->get_expression());
+    }
+}
+
+void PrettyPrinter::print_sizeof_expression(UnaryOperator* un) {
+    out << "sizeof(";
+    print_expression(un->get_expression());
+    out << ")";
+}
+
+void PrettyPrinter::print_new_expression(New* expr) {
+    out << "new ";
+    print_type(expr->get_type());
+
+    if (expr->get_arguments()) {
+        out << "()";
     }
 }
 
@@ -374,6 +397,10 @@ void PrettyPrinter::print_type(Type* type) {
         print_subtyped_type((SubtypedType*) type);
         break;
 
+    case TYPE_ARRAY:
+        print_array_type((ArrayType*) type);
+        break;
+
     case TYPE_TUPLE:
         print_tuple_type((TupleType*) type);
         break;
@@ -422,6 +449,17 @@ void PrettyPrinter::print_function_type(FunctionType* type) {
 
 void PrettyPrinter::print_named_type(NamedType* type) {
     print_identifier(type->get_identifier());
+}
+
+void PrettyPrinter::print_array_type(ArrayType* type) {
+    print_type(type->get_subtype());
+    out << "[";
+
+    if (type->get_expression()) {
+        print_expression(type->get_expression());
+    }
+
+    out << "]";
 }
 
 void PrettyPrinter::print_type_list(TypeList* tlist, const char* begin, const char* end) {

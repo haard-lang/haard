@@ -27,16 +27,20 @@ namespace haard {
         void print_cast_expression(Cast* expr);
         void print_not_in_expression(NotIn* expr);
         void print_index_expression(BinaryOperator* bin);
-        void print_logical_not_expression(UnaryOperator* un);
+
         void print_binary_operator(BinaryOperator* bin, bool no_space=false);
 
         void print_unary_operator(UnaryOperator* un, bool last=false);
+        void print_logical_not_expression(UnaryOperator* un);
+        void print_sizeof_expression(UnaryOperator* un);
+        void print_new_expression(New* expr);
 
         void print_type(Type* type);
         void print_subtyped_type(SubtypedType* type);
         void print_tuple_type(TupleType* tuple);
         void print_function_type(FunctionType* type);
         void print_named_type(NamedType* type);
+        void print_array_type(ArrayType* type);
         void print_type_list(TypeList* tlist, const char* begin, const char* end);
 
         void print_identifier(Identifier* id);

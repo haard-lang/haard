@@ -263,8 +263,8 @@ Type* Parser::parse_primary_type() {
             type = new ReferenceType(type);
             type = new ReferenceType(type);
         } else if (match_same_line(TK_LEFT_SQUARE_BRACKET)) {
-            /*type = new SubtypedType(AST_ARRAY, type);
-            expect(TK_RIGHT_SQUARE_BRACKET);*/
+            type = new ArrayType(type, parse_expression());
+            expect(TK_RIGHT_SQUARE_BRACKET);
         } else {
             break;
         }
@@ -621,7 +621,7 @@ Expression* Parser::parse_unary_expression() {
     } else if (match(TK_SIZEOF)) {
         oper = matched;
         expect(TK_LEFT_PARENTHESIS);
-        expr = new Sizeof(oper, parse_unary_expression());
+        expr = new Sizeof(oper, parse_expression());
         expect(TK_RIGHT_PARENTHESIS);
     } else if (lookahead(TK_NEW)) {
         expr = parse_new_expression();
@@ -722,7 +722,7 @@ Expression* Parser::parse_new_expression() {
         assert(false && "missing type on new");
     }
 
-    expr->set_type(parse_type());
+    expr->set_type(type);
 
     if (match(TK_LEFT_PARENTHESIS)) {
         expr->set_arguments(parse_argument_list());
