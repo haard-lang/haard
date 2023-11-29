@@ -2,13 +2,19 @@
 
 using namespace haard;
 
-New::New(Expression* expression) {
+New::New() {
     set_kind(EXPR_NEW);
-    set_expression(expression);
+    set_arguments(nullptr);
 }
 
-New::New(Token& token, Expression* expression) {
-    set_kind(EXPR_NEW);
-    set_expression(expression);
-    set_token(token);
+New::~New() {
+    delete arguments;
+}
+
+ExpressionList* New::get_arguments() const {
+    return arguments;
+}
+
+void New::set_arguments(ExpressionList* newArguments) {
+    arguments = newArguments;
 }

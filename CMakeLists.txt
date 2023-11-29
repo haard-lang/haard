@@ -117,6 +117,7 @@ set(AST_SRC
     src/ast/compound_statement.cc
     src/ast/expression_statement.cc
     src/ast/expression.cc
+    src/ast/expression_list.cc
 
     ${AST_UNOP_SRC}
     ${AST_BINOPS_SRC}

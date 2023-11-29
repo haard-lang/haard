@@ -590,9 +590,43 @@ Expression* Parser::parse_unary_expression() {
     Token oper;
     Expression* expr = nullptr;
 
-    if (match(TK_PLUS)) {
+    if (match(TK_LOGICAL_NOT) || match(TK_NOT)) {
         oper = matched;
-        expr = new UnaryOperator(EXPR_UNARY_PLUS, oper, parse_identifier());
+        expr = new LogicalNot(oper, parse_unary_expression());
+    } else if (match(TK_BITWISE_AND)) {
+        oper = matched;
+        expr = new AddressOf(oper, parse_unary_expression());
+    } else if (match(TK_TIMES)) {
+        oper = matched;
+        expr = new Dereference(oper, parse_unary_expression());
+    } else if (match(TK_POWER)) {
+        oper = matched;
+        expr = new Dereference(oper, parse_unary_expression());
+        expr = new Dereference(oper, expr);
+    } else if (match(TK_BITWISE_NOT)) {
+        oper = matched;
+        expr = new BitwiseNot(oper, parse_unary_expression());
+    } else if (match(TK_MINUS)) {
+        oper = matched;
+        expr = new UnaryMinus(oper, parse_unary_expression());
+    } else if (match(TK_PLUS)) {
+        oper = matched;
+        expr = new UnaryPlus(oper, parse_unary_expression());
+    } else if (match(TK_INC)) {
+        oper = matched;
+        expr = new PreIncrement(oper, parse_unary_expression());
+    } else if (match(TK_DEC)) {
+        oper = matched;
+        expr = new PreDecrement(oper, parse_unary_expression());
+    } else if (match(TK_SIZEOF)) {
+        oper = matched;
+        expect(TK_LEFT_PARENTHESIS);
+        expr = new Sizeof(oper, parse_unary_expression());
+        expect(TK_RIGHT_PARENTHESIS);
+    } else if (lookahead(TK_NEW)) {
+        expr = parse_new_expression();
+    } else if (lookahead(TK_DELETE)) {
+        expr = parse_delete_expression();
     } else {
         expr = parse_postfix_expression();
     }
@@ -639,6 +673,60 @@ Expression* Parser::parse_primary_expression() {
 
     if (lookahead(TK_ID) || lookahead(TK_SCOPE)) {
         expr = parse_identifier();
+    }
+
+    return expr;
+}
+
+Expression* Parser::parse_delete_expression() {
+    Token oper;
+    Expression* expr = nullptr;
+
+    expect(TK_DELETE);
+    oper = matched;
+
+    if (match(TK_LEFT_SQUARE_BRACKET)) {
+        expect(TK_RIGHT_SQUARE_BRACKET);
+        expr = new DeleteArray(oper, parse_expression());
+    } else {
+        expr = new Delete(oper, parse_expression());
+    }
+
+    return expr;
+}
+
+ExpressionList* Parser::parse_argument_list() {
+    ExpressionList* arguments = new ExpressionList();
+
+    if (!lookahead(TK_RIGHT_PARENTHESIS)) {
+        arguments->add_expression(parse_expression());
+
+        while (match(TK_COMMA)) {
+            arguments->add_expression(parse_expression());
+        }
+    }
+
+    return arguments;
+}
+
+Expression* Parser::parse_new_expression() {
+    Type* type;
+    New* expr = new New();
+
+    expect(TK_NEW);
+    expr->set_token(matched);
+
+    type = parse_type();
+
+    if (type == nullptr) {
+        assert(false && "missing type on new");
+    }
+
+    expr->set_type(parse_type());
+
+    if (match(TK_LEFT_PARENTHESIS)) {
+        expr->set_arguments(parse_argument_list());
+        expect(TK_RIGHT_PARENTHESIS);
     }
 
     return expr;

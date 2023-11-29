@@ -1,4 +1,18 @@
 def main : void
+    # unary
+    a = &a
+    a = *a
+    *a = a
+    a = !a
+    a = not a
+    a = ++a
+    a = --a
+    a = ~a
+    a = +a
+    a = -a
+    a = a++
+    a = a--
+
     # shift
     a = a << a
     a = a >> a

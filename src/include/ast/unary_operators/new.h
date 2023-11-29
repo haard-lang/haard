@@ -1,13 +1,20 @@
 #ifndef HAARD_AST_NEW_H
 #define HAARD_AST_NEW_H
 
-#include "unary_operator.h"
+#include "ast/expression.h"
+#include "ast/expression_list.h"
 
 namespace haard {
-    class New : public UnaryOperator {
+    class New : public Expression {
     public:
-        New(Expression* expression=nullptr);
-        New(Token& token, Expression* expression=nullptr);
+        New();
+        ~New();
+
+        ExpressionList* get_arguments() const;
+        void set_arguments(ExpressionList* newArguments);
+
+    private:
+        ExpressionList* arguments;
     };
 }
 

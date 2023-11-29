@@ -82,6 +82,23 @@
 #include "ast/binary_operators/call.h"
 
 #include "ast/unary_operators/unary_operator.h"
+#include "ast/unary_operators/address_of.h"
+#include "ast/unary_operators/bitwise_not.h"
+#include "ast/unary_operators/delete_array.h"
+#include "ast/unary_operators/delete.h"
+#include "ast/unary_operators/dereference.h"
+#include "ast/unary_operators/logical_not.h"
+#include "ast/unary_operators/new.h"
+#include "ast/unary_operators/pos_decrement.h"
+#include "ast/unary_operators/pos_increment.h"
+#include "ast/unary_operators/pre_decrement.h"
+#include "ast/unary_operators/pre_increment.h"
+#include "ast/unary_operators/sizeof.h"
+#include "ast/unary_operators/unary_minus.h"
+#include "ast/unary_operators/unary_operator.h"
+#include "ast/unary_operators/unary_plus.h"
+
+#include "ast/expression_list.h"
 #include "ast/identifier.h"
 
 #endif

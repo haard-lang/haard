@@ -184,7 +184,17 @@ void PrettyPrinter::print_expression(Expression* expr) {
         print_index_expression(bin);
         break;
 
+    case EXPR_LOGICAL_NOT:
+        print_logical_not_expression(un);
+        break;
+
     case EXPR_UNARY_PLUS:
+    case EXPR_UNARY_MINUS:
+    case EXPR_ADDRESS_OF:
+    case EXPR_DEREFERENCE:
+    case EXPR_BITWISE_NOT:
+    case EXPR_PRE_INCREMENT:
+    case EXPR_PRE_DECREMENT:
         print_unary_operator(un);
         break;
 
@@ -213,6 +223,15 @@ void PrettyPrinter::print_index_expression(BinaryOperator* bin) {
 
     print_expression(bin->get_right());
     out << ']';
+}
+
+void PrettyPrinter::print_logical_not_expression(UnaryOperator* un) {
+    if (un->get_token().get_kind() == TK_LOGICAL_NOT) {
+        print_unary_operator(un);
+    } else {
+        out << "not ";
+        print_expression(un->get_expression());
+    }
 }
 
 void PrettyPrinter::print_binary_operator(BinaryOperator* bin, bool no_space) {

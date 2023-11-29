@@ -55,6 +55,10 @@ namespace haard {
         Expression* parse_unary_expression();
         Expression* parse_postfix_expression();
         Expression* parse_primary_expression();
+        Expression* parse_new_expression();
+        Expression* parse_delete_expression();
+
+        ExpressionList* parse_argument_list();
 
         Identifier* parse_identifier();
 

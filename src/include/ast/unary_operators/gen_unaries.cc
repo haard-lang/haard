@@ -79,7 +79,6 @@ int main() {
     gen_file("pos_increment");
     gen_file("pos_decrement");
     gen_file("sizeof");
-    gen_file("new");
     gen_file("delete");
     gen_file("delete_array");
 
