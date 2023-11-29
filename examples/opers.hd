@@ -2,7 +2,14 @@ def main : void
     # new and delete
     p = new int
     p = new Foo()
+    p = new Foo
+    p = new Foo<int>
+    p = new Foo<int>(a, b)
+    p = new foo::Foo<int>(a, b)
     p = new int[N_ELEMS]
+    p = new int**[N_ELEMS + a]
+    delete p
+    delete[] p
 
     # unary
     a = &a

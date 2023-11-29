@@ -196,6 +196,14 @@ void PrettyPrinter::print_expression(Expression* expr) {
         print_new_expression((New*) expr);
         break;
 
+    case EXPR_DELETE:
+        print_delete_expression((Delete*) expr);
+        break;
+
+    case EXPR_DELETE_ARRAY:
+        print_delete_array_expression((DeleteArray*) expr);
+        break;
+
     case EXPR_UNARY_PLUS:
     case EXPR_UNARY_MINUS:
     case EXPR_ADDRESS_OF:
@@ -251,10 +259,17 @@ void PrettyPrinter::print_sizeof_expression(UnaryOperator* un) {
 void PrettyPrinter::print_new_expression(New* expr) {
     out << "new ";
     print_type(expr->get_type());
+    print_expression_list(expr->get_arguments(), "(", ")");
+}
 
-    if (expr->get_arguments()) {
-        out << "()";
-    }
+void PrettyPrinter::print_delete_expression(Delete* expr) {
+    out << "delete ";
+    print_expression(expr->get_expression());
+}
+
+void PrettyPrinter::print_delete_array_expression(DeleteArray* expr) {
+    out << "delete[] ";
+    print_expression(expr->get_expression());
 }
 
 void PrettyPrinter::print_binary_operator(BinaryOperator* bin, bool no_space) {
@@ -494,6 +509,26 @@ void PrettyPrinter::print_identifier(Identifier* id) {
 
 void PrettyPrinter::print_generics(TypeList* g) {
     print_type_list(g, "<", ">");
+}
+
+void PrettyPrinter::print_expression_list(ExpressionList* list, const char* begin, const char* end) {
+    if (list == nullptr) {
+        return;
+    }
+
+    int i;
+    out << begin;
+
+    if (list->expressions_count() > 0) {
+        for (i = 0; i < list->expressions_count() - 1; ++i) {
+            print_expression(list->get_expression(i));
+            out << ", ";
+        }
+
+        print_expression(list->get_expression(i));
+    }
+
+    out << end;
 }
 
 void PrettyPrinter::indent() {
