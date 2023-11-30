@@ -676,6 +676,8 @@ Expression* Parser::parse_primary_expression() {
         expr = new IntegerLiteral(matched);
     } else if (match(TK_LITERAL_FLOAT)) {
         expr = new FloatLiteral(matched);
+    } else if (match(TK_LITERAL_DOUBLE)) {
+        expr = new DoubleLiteral(matched);
     }
 
     return expr;

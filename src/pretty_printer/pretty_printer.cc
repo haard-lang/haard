@@ -226,6 +226,7 @@ void PrettyPrinter::print_expression(Expression* expr) {
 
     case EXPR_LITERAL_INTEGER:
     case EXPR_LITERAL_FLOAT:
+    case EXPR_LITERAL_DOUBLE:
         out << literal->get_token().get_value();
         break;
     }

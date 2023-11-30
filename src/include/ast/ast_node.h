@@ -93,6 +93,7 @@ namespace haard {
         // Literals
         EXPR_LITERAL_INTEGER,
         EXPR_LITERAL_FLOAT,
+        EXPR_LITERAL_DOUBLE,
 
         // Types
         TYPE_BOOL,

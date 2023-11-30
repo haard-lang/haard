@@ -17,6 +17,7 @@ def main : void
     a = 0b1001_1001_1101
 
     a = 3.1415f
+    a = 3.1415
 
     # unary
     a = &a
