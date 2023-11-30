@@ -103,5 +103,6 @@
 
 #include "ast/literals/literal.h"
 #include "ast/literals/integer_literal.h"
+#include "ast/literals/float_literal.h"
 
 #endif
