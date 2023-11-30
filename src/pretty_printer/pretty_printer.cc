@@ -119,6 +119,7 @@ void PrettyPrinter::print_expression_statement(ExpressionStatement* stmt) {
 void PrettyPrinter::print_expression(Expression* expr) {
     BinaryOperator* bin = (BinaryOperator*) expr;
     UnaryOperator* un = (UnaryOperator*) expr;
+    Literal* literal = (Literal*) expr;
 
     switch (expr->get_kind()) {
     case AST_ID:
@@ -221,6 +222,10 @@ void PrettyPrinter::print_expression(Expression* expr) {
     case EXPR_POS_INCREMENT:
     case EXPR_POS_DECREMENT:
         print_unary_operator(un, true);
+        break;
+
+    case EXPR_LITERAL_INTEGER:
+        out << literal->get_token().get_value();
         break;
     }
 }

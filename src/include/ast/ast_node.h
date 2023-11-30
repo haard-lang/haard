@@ -90,6 +90,9 @@ namespace haard {
         EXPR_POS_INCREMENT,
         EXPR_POS_DECREMENT,
 
+        // Literals
+        EXPR_LITERAL_INTEGER,
+
         // Types
         TYPE_BOOL,
         TYPE_CHAR,

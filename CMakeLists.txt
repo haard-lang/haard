@@ -96,6 +96,11 @@ set(AST_BINOPS_SRC
     src/ast/binary_operators/call.cc
 )
 
+set(AST_LITERALS
+    src/ast/literals/literal.cc
+    src/ast/literals/integer_literal.cc
+)
+
 set(AST_SRC
     src/ast/ast_node.cc
     src/ast/declaration.cc
@@ -121,6 +126,7 @@ set(AST_SRC
 
     ${AST_UNOP_SRC}
     ${AST_BINOPS_SRC}
+    ${AST_LITERALS}
 
     src/ast/identifier.cc
 )

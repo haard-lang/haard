@@ -101,4 +101,7 @@
 #include "ast/expression_list.h"
 #include "ast/identifier.h"
 
+#include "ast/literals/literal.h"
+#include "ast/literals/integer_literal.h"
+
 #endif

@@ -11,6 +11,10 @@ def main : void
     delete p
     delete[] p
 
+    # literals
+    a = 0 + 1
+    a = 0x123_abc
+    a = 0b1001_1001_1101
     # unary
     a = &a
     a = *a
