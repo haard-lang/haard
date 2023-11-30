@@ -94,6 +94,7 @@ namespace haard {
         EXPR_LITERAL_INTEGER,
         EXPR_LITERAL_FLOAT,
         EXPR_LITERAL_DOUBLE,
+        EXPR_LITERAL_CHAR,
 
         // Types
         TYPE_BOOL,

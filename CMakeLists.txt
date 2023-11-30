@@ -101,6 +101,7 @@ set(AST_LITERALS
     src/ast/literals/integer_literal.cc
     src/ast/literals/float_literal.cc
     src/ast/literals/double_literal.cc
+    src/ast/literals/char_literal.cc
 )
 
 set(AST_SRC

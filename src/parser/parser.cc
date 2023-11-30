@@ -678,6 +678,8 @@ Expression* Parser::parse_primary_expression() {
         expr = new FloatLiteral(matched);
     } else if (match(TK_LITERAL_DOUBLE)) {
         expr = new DoubleLiteral(matched);
+    } else if (match(TK_LITERAL_CHAR)) {
+        expr = new CharLiteral(matched);
     }
 
     return expr;

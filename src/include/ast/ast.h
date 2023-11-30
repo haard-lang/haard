@@ -105,5 +105,6 @@
 #include "ast/literals/integer_literal.h"
 #include "ast/literals/float_literal.h"
 #include "ast/literals/double_literal.h"
+#include "ast/literals/char_literal.h"
 
 #endif

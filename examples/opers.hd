@@ -19,6 +19,10 @@ def main : void
     a = 3.1415f
     a = 3.1415
 
+    a = 'b'
+    a = '\n'
+    a = '\t'
+
     # unary
     a = &a
     a = *a
