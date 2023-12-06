@@ -201,8 +201,8 @@ void Scanner::get_operator() {
 void Scanner::get_single_quote_string() {
     int steps = 0;
 
-    start_token();
     advance();
+    start_token();
 
     while (!lookahead('\'')) {
         if (lookahead('\\')) {
@@ -213,18 +213,18 @@ void Scanner::get_single_quote_string() {
         steps++;
     }
 
-    advance();
-
     if (steps > 1) {
-        create_token(TK_LITERAL_STRING);
+        create_token(TK_LITERAL_SINGLE_QUOTE_STRING);
     } else {
         create_token(TK_LITERAL_CHAR);
     }
+
+    advance();
 }
 
 void Scanner::get_double_quote_string() {
-    start_token();
     advance();
+    start_token();
 
     while (!lookahead('"')) {
         if (lookahead('\\')) {
@@ -234,8 +234,8 @@ void Scanner::get_double_quote_string() {
         advance();
     }
 
+    create_token(TK_LITERAL_DOUBLE_QUOTE_STRING);
     advance();
-    create_token(TK_LITERAL_STRING);
 }
 
 void Scanner::skip_comment() {

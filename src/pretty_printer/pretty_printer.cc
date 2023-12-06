@@ -227,8 +227,15 @@ void PrettyPrinter::print_expression(Expression* expr) {
     case EXPR_LITERAL_INTEGER:
     case EXPR_LITERAL_FLOAT:
     case EXPR_LITERAL_DOUBLE:
-    case EXPR_LITERAL_CHAR:
         out << literal->get_token().get_value();
+        break;
+
+    case EXPR_LITERAL_CHAR:
+        print_char_literal((CharLiteral*) expr);
+        break;
+
+    case EXPR_LITERAL_STRING:
+        print_string_literal((StringLiteral*) expr);
         break;
     }
 }
@@ -531,6 +538,20 @@ void PrettyPrinter::print_identifier(Identifier* id) {
 
 void PrettyPrinter::print_generics(TypeList* g) {
     print_type_list(g, "<", ">");
+}
+
+void PrettyPrinter::print_char_literal(CharLiteral* ch) {
+    out << '\'' << ch->get_token().get_value() << '\'';
+}
+
+void PrettyPrinter::print_string_literal(StringLiteral* str) {
+    char c = '"';
+
+    if (str->get_token().get_kind() == TK_LITERAL_SINGLE_QUOTE_STRING) {
+        c = '\'';
+    }
+
+    out << c << str->get_token().get_value() << c;
 }
 
 void PrettyPrinter::print_expression_list(ExpressionList* list, const char* begin, const char* end) {

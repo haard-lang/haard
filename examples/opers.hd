@@ -11,17 +11,6 @@ def main : void
     delete p
     delete[] p
 
-    # literals
-    a = 0 + 1
-    a = 0x123_abc
-    a = 0b1001_1001_1101
-
-    a = 3.1415f
-    a = 3.1415
-
-    a = 'b'
-    a = '\n'
-    a = '\t'
 
     # unary
     a = &a
@@ -116,3 +105,24 @@ def main : void
     foo.bar()
     bar()
     bar(bar(a[idx]))
+
+    # literals
+    a = 0 + 1
+    a = 0x123_abc
+    a = 0b1001_1001_1101
+
+    a = 3.1415f
+    a = 3.1415
+
+    a = 'b'
+    a = '\n'
+    a = '\t'
+
+    a = "hello"
+    a = 'hello'
+
+    a = (1 + 2) * 3
+
+    (a, b) = (1, 2)
+    v = (1, 2, true)
+    v = (1 + 2; print('foo'); foo())

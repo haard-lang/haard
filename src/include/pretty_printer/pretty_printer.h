@@ -49,6 +49,9 @@ namespace haard {
         void print_identifier(Identifier* id);
         void print_generics(TypeList* g);
 
+        void print_char_literal(CharLiteral* ch);
+        void print_string_literal(StringLiteral* str);
+
         void print_expression_list(ExpressionList* list, const char* begin, const char* end);
 
     private:

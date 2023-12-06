@@ -680,6 +680,12 @@ Expression* Parser::parse_primary_expression() {
         expr = new DoubleLiteral(matched);
     } else if (match(TK_LITERAL_CHAR)) {
         expr = new CharLiteral(matched);
+    } else if (match(TK_LITERAL_SINGLE_QUOTE_STRING)) {
+        expr = new StringLiteral(matched);
+    } else if (match(TK_LITERAL_DOUBLE_QUOTE_STRING)) {
+        expr = new StringLiteral(matched);
+    } else if (lookahead(TK_LEFT_PARENTHESIS)) {
+        expr = parse_parenthesis_or_tuple_or_sequence();
     }
 
     return expr;
@@ -699,6 +705,34 @@ Expression* Parser::parse_delete_expression() {
         expr = new Delete(oper, parse_expression());
     }
 
+    return expr;
+}
+
+Expression* Parser::parse_parenthesis_or_tuple_or_sequence() {
+    Token oper;
+    Expression* expr = nullptr;
+    Tuple* tuple = nullptr;
+
+    expect(TK_LEFT_PARENTHESIS);
+    oper = matched;
+    expr = parse_expression();
+
+    if (lookahead(TK_COMMA)) {
+        tuple = new Tuple();
+        tuple->add_expression(expr);
+
+        while (match(TK_COMMA)) {
+            if (!lookahead(TK_RIGHT_PARENTHESIS)) {
+                tuple->add_expression(parse_expression());
+            }
+        }
+
+        expr = tuple;
+    } else if (lookahead(TK_RIGHT_PARENTHESIS)) {
+        expr = new Parenthesis(oper, expr);
+    }
+
+    expect(TK_RIGHT_PARENTHESIS);
     return expr;
 }
 
