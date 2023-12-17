@@ -1,0 +1,4 @@
+def main : void
+    a = (1, 2, 'hello')
+    a = (1 + 2) * 3
+    a = (s.append('hello, '); s.append(name); s.append("!"))

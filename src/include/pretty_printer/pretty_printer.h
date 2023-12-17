@@ -36,6 +36,7 @@ namespace haard {
         void print_new_expression(New* expr);
         void print_delete_expression(Delete* expr);
         void print_delete_array_expression(DeleteArray* expr);
+        void print_parenthesis_expression(Parenthesis* expr);
         void print_call_expression(Call* expr);
 
         void print_type(Type* type);
@@ -51,8 +52,10 @@ namespace haard {
 
         void print_char_literal(CharLiteral* ch);
         void print_string_literal(StringLiteral* str);
+        void print_tuple_expression(Tuple* expr);
+        void print_sequence_expression(Sequence* expr);
 
-        void print_expression_list(ExpressionList* list, const char* begin, const char* end);
+        void print_expression_list(ExpressionList* list, const char* begin, const char* end, const char* sep=",");
 
     private:
         void indent();

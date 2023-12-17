@@ -57,6 +57,7 @@ namespace haard {
         Expression* parse_primary_expression();
         Expression* parse_new_expression();
         Expression* parse_delete_expression();
+        Expression* parse_parenthesis_or_tuple_or_sequence();
 
         ExpressionList* parse_argument_list();
 

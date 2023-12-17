@@ -84,6 +84,7 @@ namespace haard {
         EXPR_NEW,
         EXPR_DELETE,
         EXPR_DELETE_ARRAY,
+        EXPR_PARENTHESIS,
 
         EXPR_PRE_INCREMENT,
         EXPR_PRE_DECREMENT,
@@ -96,6 +97,9 @@ namespace haard {
         EXPR_LITERAL_DOUBLE,
         EXPR_LITERAL_CHAR,
         EXPR_LITERAL_STRING,
+
+        EXPR_TUPLE,
+        EXPR_SEQUENCE,
 
         // Types
         TYPE_BOOL,

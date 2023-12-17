@@ -33,6 +33,7 @@ set(AST_UNOP_SRC
     src/ast/unary_operators/new.cc
     src/ast/unary_operators/delete.cc
     src/ast/unary_operators/delete_array.cc
+    src/ast/unary_operators/parenthesis.cc
 )
 
 set(AST_BINOPS_SRC
@@ -127,6 +128,8 @@ set(AST_SRC
     src/ast/expression_statement.cc
     src/ast/expression.cc
     src/ast/expression_list.cc
+    src/ast/tuple.cc
+    src/ast/sequence.cc
 
     ${AST_UNOP_SRC}
     ${AST_BINOPS_SRC}

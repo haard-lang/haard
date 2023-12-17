@@ -209,6 +209,10 @@ void PrettyPrinter::print_expression(Expression* expr) {
         print_delete_array_expression((DeleteArray*) expr);
         break;
 
+    case EXPR_PARENTHESIS:
+        print_parenthesis_expression((Parenthesis*) expr);
+        break;
+
     case EXPR_UNARY_PLUS:
     case EXPR_UNARY_MINUS:
     case EXPR_ADDRESS_OF:
@@ -236,6 +240,14 @@ void PrettyPrinter::print_expression(Expression* expr) {
 
     case EXPR_LITERAL_STRING:
         print_string_literal((StringLiteral*) expr);
+        break;
+
+    case EXPR_TUPLE:
+        print_tuple_expression((Tuple*) expr);
+        break;
+
+    case EXPR_SEQUENCE:
+        print_sequence_expression((Sequence*) expr);
         break;
     }
 }
@@ -289,6 +301,12 @@ void PrettyPrinter::print_delete_expression(Delete* expr) {
 void PrettyPrinter::print_delete_array_expression(DeleteArray* expr) {
     out << "delete[] ";
     print_expression(expr->get_expression());
+}
+
+void PrettyPrinter::print_parenthesis_expression(Parenthesis* expr) {
+    out << "(";
+    print_expression(expr->get_expression());
+    out << ")";
 }
 
 void PrettyPrinter::print_call_expression(Call* expr) {
@@ -554,7 +572,15 @@ void PrettyPrinter::print_string_literal(StringLiteral* str) {
     out << c << str->get_token().get_value() << c;
 }
 
-void PrettyPrinter::print_expression_list(ExpressionList* list, const char* begin, const char* end) {
+void PrettyPrinter::print_tuple_expression(Tuple* expr) {
+    print_expression_list(expr->get_expressions(), "(", ")");
+}
+
+void PrettyPrinter::print_sequence_expression(Sequence* expr) {
+    print_expression_list(expr->get_expressions(), "(", ")", ";");
+}
+
+void PrettyPrinter::print_expression_list(ExpressionList* list, const char* begin, const char* end, const char* sep) {
     if (list == nullptr) {
         return;
     }
@@ -565,7 +591,7 @@ void PrettyPrinter::print_expression_list(ExpressionList* list, const char* begi
     if (list->expressions_count() > 0) {
         for (i = 0; i < list->expressions_count() - 1; ++i) {
             print_expression(list->get_expression(i));
-            out << ", ";
+            out << sep << " ";
         }
 
         print_expression(list->get_expression(i));

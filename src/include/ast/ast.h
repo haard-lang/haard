@@ -97,6 +97,7 @@
 #include "ast/unary_operators/unary_minus.h"
 #include "ast/unary_operators/unary_operator.h"
 #include "ast/unary_operators/unary_plus.h"
+#include "ast/unary_operators/parenthesis.h"
 
 #include "ast/expression_list.h"
 #include "ast/identifier.h"
@@ -107,5 +108,8 @@
 #include "ast/literals/double_literal.h"
 #include "ast/literals/char_literal.h"
 #include "ast/literals/string_literal.h"
+
+#include "ast/tuple.h"
+#include "ast/sequence.h"
 
 #endif

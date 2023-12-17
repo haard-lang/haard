@@ -712,10 +712,15 @@ Expression* Parser::parse_parenthesis_or_tuple_or_sequence() {
     Token oper;
     Expression* expr = nullptr;
     Tuple* tuple = nullptr;
+    Sequence* sequence = nullptr;
 
     expect(TK_LEFT_PARENTHESIS);
     oper = matched;
     expr = parse_expression();
+
+    if (expr == nullptr) {
+        assert(false && "expression can't be null on tuple");
+    }
 
     if (lookahead(TK_COMMA)) {
         tuple = new Tuple();
@@ -723,11 +728,34 @@ Expression* Parser::parse_parenthesis_or_tuple_or_sequence() {
 
         while (match(TK_COMMA)) {
             if (!lookahead(TK_RIGHT_PARENTHESIS)) {
-                tuple->add_expression(parse_expression());
+                expr = parse_expression();
+
+                if (expr == nullptr) {
+                    assert(false && "expression can't be null on tuple2");
+                }
+
+                tuple->add_expression(expr);
             }
         }
 
         expr = tuple;
+    } else if (lookahead(TK_SEMICOLON)) {
+        sequence = new Sequence();
+        sequence->add_expression(expr);
+
+        while (match(TK_SEMICOLON)) {
+            if (!lookahead(TK_RIGHT_PARENTHESIS)) {
+                expr = parse_expression();
+
+                if (expr == nullptr) {
+                    assert(false && "expression can't be null on sequence");
+                }
+
+                sequence->add_expression(expr);
+            }
+        }
+
+        expr = sequence;
     } else if (lookahead(TK_RIGHT_PARENTHESIS)) {
         expr = new Parenthesis(oper, expr);
     }
