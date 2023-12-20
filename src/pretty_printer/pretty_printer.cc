@@ -93,10 +93,25 @@ void PrettyPrinter::print_statement(Statement* stmt) {
         print_expression_statement((ExpressionStatement*) stmt);
         break;
 
+    case STMT_WHILE:
+        print_while_statement((WhileStatement*) stmt);
+        break;
+
     default:
         assert(false && "invalid statement");
         break;
     }
+}
+
+void PrettyPrinter::print_while_statement(WhileStatement* stmt) {
+    print_indentation();
+    out << "while ";
+    print_expression(stmt->get_condition());
+    out << ":\n";
+    indent();
+    print_compound_statement(stmt->get_statements());
+    dedent();
+    out << '\n';
 }
 
 void PrettyPrinter::print_compound_statement(CompoundStatement* stmt) {

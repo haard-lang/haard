@@ -106,6 +106,10 @@ set(AST_LITERALS
     src/ast/literals/string_literal.cc
 )
 
+set(AST_STMTS
+    src/ast/statements/while_statement.cc
+)
+
 set(AST_SRC
     src/ast/ast_node.cc
     src/ast/declaration.cc
@@ -134,6 +138,7 @@ set(AST_SRC
     ${AST_UNOP_SRC}
     ${AST_BINOPS_SRC}
     ${AST_LITERALS}
+    ${AST_STMTS}
 
     src/ast/identifier.cc
 )

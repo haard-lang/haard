@@ -13,6 +13,7 @@ namespace haard {
         AST_UNKNOWN_STATEMENT,
         AST_COMPOUND_STATEMENT,
         AST_EXPRESSION_STATEMENT,
+        STMT_WHILE,
 
         AST_EXPRESSION_UNKNOWN,
 

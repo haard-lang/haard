@@ -131,8 +131,35 @@ Statement* Parser::parse_statement() {
     } else if (lookahead(TK_VAR)) {
         stmt = parse_variable_declaration();*/
     //} else {
-        stmt = new ExpressionStatement(parse_expression());
+        //stmt = new ExpressionStatement(parse_expression());
     //}
+
+    if (lookahead(TK_WHILE)) {
+        stmt = parse_while_statement();
+    } else {
+        stmt = new ExpressionStatement(parse_expression());
+    }
+
+    return stmt;
+}
+
+WhileStatement* Parser::parse_while_statement() {
+    Expression* condition;
+    WhileStatement* stmt = new WhileStatement();
+
+    expect(TK_WHILE);
+    stmt->set_token(matched);
+    condition = parse_expression();
+
+    if (condition == nullptr) {
+        assert(false && "expected while condition");
+    }
+
+    stmt->set_condition(condition);
+    expect(TK_COLON);
+    indent();
+    stmt->set_statements(parse_compound_statement());
+    dedent();
 
     return stmt;
 }
