@@ -105,6 +105,7 @@ set(AST_LITERALS
     src/ast/literals/char_literal.cc
     src/ast/literals/string_literal.cc
     src/ast/literals/list_literal.cc
+    src/ast/literals/array_literal.cc
     src/ast/literals/tuple_literal.cc
 )
 

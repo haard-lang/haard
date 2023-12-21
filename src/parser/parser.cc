@@ -715,6 +715,8 @@ Expression* Parser::parse_primary_expression() {
         expr = parse_parenthesis_or_tuple_or_sequence();
     } else if (lookahead(TK_LEFT_SQUARE_BRACKET)) {
         expr = parse_list_expression();
+    } else if (lookahead(TK_LEFT_CURLY_BRACKET)) {
+        expr = parse_array_or_hash_expression();
     }
 
     return expr;
@@ -823,6 +825,46 @@ Expression* Parser::parse_list_expression() {
 
     expect(TK_RIGHT_SQUARE_BRACKET);
     return list;
+}
+
+Expression* Parser::parse_array_or_hash_expression() {
+    Expression* expr = nullptr;
+    ExpressionList* list = nullptr;
+    ArrayLiteral* array;
+
+    expect(TK_LEFT_CURLY_BRACKET);
+
+    if (!lookahead(TK_RIGHT_CURLY_BRACKET)) {
+        expr = parse_expression();
+
+        if (expr == nullptr) {
+            assert(false && "missing expression on array or hash literal");
+        }
+
+        if (expr->get_kind() == AST_ID && lookahead(TK_COLON)) {
+            //expr = parse_hash(expr);
+        } else {
+            array = new ArrayLiteral();
+            array->add_expression(expr);
+
+            while (match(TK_COMMA)) {
+                if (!lookahead(TK_RIGHT_CURLY_BRACKET)) {
+                    expr = parse_expression();
+
+                    if (expr == nullptr) {
+                        assert(false && "missing expression on array literal");
+                    }
+
+                    array->add_expression(expr);
+                }
+            }
+
+            expr = array;
+        }
+    }
+
+    expect(TK_RIGHT_CURLY_BRACKET);
+    return expr;
 }
 
 ExpressionList* Parser::parse_argument_list() {

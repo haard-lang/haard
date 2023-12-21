@@ -99,6 +99,7 @@ namespace haard {
         EXPR_LITERAL_CHAR,
         EXPR_LITERAL_STRING,
         EXPR_LITERAL_LIST,
+        EXPR_LITERAL_ARRAY,
         EXPR_LITERAL_TUPLE,
 
         EXPR_SEQUENCE,

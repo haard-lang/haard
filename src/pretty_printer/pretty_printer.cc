@@ -265,6 +265,10 @@ void PrettyPrinter::print_expression(Expression* expr) {
         print_list_expression((ListLiteral*) expr);
         break;
 
+    case EXPR_LITERAL_ARRAY:
+        print_array_literal((ArrayLiteral*) expr);
+        break;
+
     case EXPR_SEQUENCE:
         print_sequence_expression((Sequence*) expr);
         break;
@@ -597,6 +601,10 @@ void PrettyPrinter::print_tuple_expression(TupleLiteral* expr) {
 
 void PrettyPrinter::print_list_expression(ListLiteral* expr) {
     print_expression_list(expr->get_expressions(), "[", "]");
+}
+
+void PrettyPrinter::print_array_literal(ArrayLiteral* expr) {
+    print_expression_list(expr->get_expressions(), "{", "}");
 }
 
 void PrettyPrinter::print_sequence_expression(Sequence* expr) {
