@@ -105,6 +105,7 @@ set(AST_LITERALS
     src/ast/literals/char_literal.cc
     src/ast/literals/string_literal.cc
     src/ast/literals/list_literal.cc
+    src/ast/literals/tuple_literal.cc
 )
 
 set(AST_STMTS
@@ -133,7 +134,6 @@ set(AST_SRC
     src/ast/expression_statement.cc
     src/ast/expression.cc
     src/ast/expression_list.cc
-    src/ast/tuple.cc
     src/ast/sequence.cc
 
     ${AST_UNOP_SRC}

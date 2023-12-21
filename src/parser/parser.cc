@@ -740,7 +740,7 @@ Expression* Parser::parse_delete_expression() {
 Expression* Parser::parse_parenthesis_or_tuple_or_sequence() {
     Token oper;
     Expression* expr = nullptr;
-    Tuple* tuple = nullptr;
+    TupleLiteral* tuple = nullptr;
     Sequence* sequence = nullptr;
 
     expect(TK_LEFT_PARENTHESIS);
@@ -752,7 +752,7 @@ Expression* Parser::parse_parenthesis_or_tuple_or_sequence() {
     }
 
     if (lookahead(TK_COMMA)) {
-        tuple = new Tuple();
+        tuple = new TupleLiteral();
         tuple->add_expression(expr);
 
         while (match(TK_COMMA)) {

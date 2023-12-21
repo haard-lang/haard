@@ -258,7 +258,7 @@ void PrettyPrinter::print_expression(Expression* expr) {
         break;
 
     case EXPR_LITERAL_TUPLE:
-        print_tuple_expression((Tuple*) expr);
+        print_tuple_expression((TupleLiteral*) expr);
         break;
 
     case EXPR_LITERAL_LIST:
@@ -591,7 +591,7 @@ void PrettyPrinter::print_string_literal(StringLiteral* str) {
     out << c << str->get_token().get_value() << c;
 }
 
-void PrettyPrinter::print_tuple_expression(Tuple* expr) {
+void PrettyPrinter::print_tuple_expression(TupleLiteral* expr) {
     print_expression_list(expr->get_expressions(), "(", ")");
 }
 

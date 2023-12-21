@@ -1,14 +1,14 @@
-#ifndef HAARD_TUPLE_H
-#define HAARD_TUPLE_H
+#ifndef HAARD_TUPLE_LITERAL_H
+#define HAARD_TUPLE_LITERAL_H
 
 #include "ast/expression.h"
 #include "ast/expression_list.h"
 
 namespace haard {
-    class Tuple : public Expression {
+    class TupleLiteral : public Expression {
     public:
-        Tuple();
-        ~Tuple();
+        TupleLiteral();
+        ~TupleLiteral();
 
     public:
         void add_expression(Expression* expr);
