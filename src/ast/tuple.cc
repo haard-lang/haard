@@ -3,7 +3,7 @@
 using namespace haard;
 
 Tuple::Tuple() {
-    set_kind(EXPR_TUPLE);
+    set_kind(EXPR_LITERAL_TUPLE);
     expressions = new ExpressionList();
 }
 

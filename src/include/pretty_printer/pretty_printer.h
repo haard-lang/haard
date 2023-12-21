@@ -54,6 +54,7 @@ namespace haard {
         void print_char_literal(CharLiteral* ch);
         void print_string_literal(StringLiteral* str);
         void print_tuple_expression(Tuple* expr);
+        void print_list_expression(ListLiteral* expr);
         void print_sequence_expression(Sequence* expr);
 
         void print_expression_list(ExpressionList* list, const char* begin, const char* end, const char* sep=",");

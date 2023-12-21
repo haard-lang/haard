@@ -104,6 +104,7 @@ set(AST_LITERALS
     src/ast/literals/double_literal.cc
     src/ast/literals/char_literal.cc
     src/ast/literals/string_literal.cc
+    src/ast/literals/list_literal.cc
 )
 
 set(AST_STMTS

@@ -109,8 +109,9 @@
 #include "ast/literals/double_literal.h"
 #include "ast/literals/char_literal.h"
 #include "ast/literals/string_literal.h"
-
+#include "ast/literals/list_literal.h"
 #include "ast/tuple.h"
+
 #include "ast/sequence.h"
 
 #endif

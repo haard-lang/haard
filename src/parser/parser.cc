@@ -713,6 +713,8 @@ Expression* Parser::parse_primary_expression() {
         expr = new StringLiteral(matched);
     } else if (lookahead(TK_LEFT_PARENTHESIS)) {
         expr = parse_parenthesis_or_tuple_or_sequence();
+    } else if (lookahead(TK_LEFT_SQUARE_BRACKET)) {
+        expr = parse_list_expression();
     }
 
     return expr;
@@ -789,6 +791,38 @@ Expression* Parser::parse_parenthesis_or_tuple_or_sequence() {
 
     expect(TK_RIGHT_PARENTHESIS);
     return expr;
+}
+
+Expression* Parser::parse_list_expression() {
+    Expression* expr = nullptr;
+    ListLiteral* list = new ListLiteral();
+
+    expect(TK_LEFT_SQUARE_BRACKET);
+
+    if (!lookahead(TK_RIGHT_SQUARE_BRACKET)) {
+        expr = parse_expression();
+
+        if (expr == nullptr) {
+            assert(false && "expected expression on list literal");
+        }
+
+        list->add_expression(expr);
+
+        while (match(TK_COMMA)) {
+            if (!lookahead(TK_RIGHT_SQUARE_BRACKET)) {
+                expr = parse_expression();
+
+                if (expr == nullptr) {
+                    assert(false && "expected expression on list literal");
+                }
+
+                list->add_expression(expr);
+            }
+        }
+    }
+
+    expect(TK_RIGHT_SQUARE_BRACKET);
+    return list;
 }
 
 ExpressionList* Parser::parse_argument_list() {
