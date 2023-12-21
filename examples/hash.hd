@@ -1,0 +1,21 @@
+def main : void
+    v = {
+        name: 'the name',
+        age: 10
+    }
+
+    v = {
+        name: 'the name',
+        age: 10,
+    }
+
+    info = {
+        author: 'the author',
+        contact: 'author@email.com',
+        dependencies: [
+            {
+                name: 'dep1',
+                version: 'v1.0.0'
+            },
+        ]
+    }

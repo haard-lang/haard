@@ -842,7 +842,7 @@ Expression* Parser::parse_array_or_hash_expression() {
         }
 
         if (expr->get_kind() == AST_ID && lookahead(TK_COLON)) {
-            //expr = parse_hash(expr);
+            expr = parse_hash(expr);
         } else {
             array = new ArrayLiteral();
             array->add_expression(expr);
@@ -861,10 +861,39 @@ Expression* Parser::parse_array_or_hash_expression() {
 
             expr = array;
         }
+    } else {
+        expr = new ArrayLiteral();
     }
 
     expect(TK_RIGHT_CURLY_BRACKET);
     return expr;
+}
+
+Expression* Parser::parse_hash(Expression* key) {
+    Expression* expr = nullptr;
+    HashLiteral* hash = new HashLiteral();
+
+    expect(TK_COLON);
+    expr = parse_expression();
+
+    if (expr == nullptr) {
+        assert(false && "missing value on hash");
+    }
+
+    expr = new HashPair(key, expr);
+
+    hash->add_expression(expr);
+
+    while (match(TK_COMMA)) {
+        if (!lookahead(TK_RIGHT_CURLY_BRACKET)) {
+            key = parse_identifier();
+            expect(TK_COLON);
+            expr = new HashPair(key, parse_expression());
+            hash->add_expression(expr);
+        }
+    }
+
+    return hash;
 }
 
 ExpressionList* Parser::parse_argument_list() {

@@ -74,6 +74,7 @@ namespace haard {
         EXPR_ARROW,
         EXPR_INDEX,
         EXPR_CALL,
+        EXPR_HASH_PAIR,
 
         EXPR_ADDRESS_OF,
         EXPR_DEREFERENCE,
@@ -100,6 +101,7 @@ namespace haard {
         EXPR_LITERAL_STRING,
         EXPR_LITERAL_LIST,
         EXPR_LITERAL_ARRAY,
+        EXPR_LITERAL_HASH,
         EXPR_LITERAL_TUPLE,
 
         EXPR_SEQUENCE,

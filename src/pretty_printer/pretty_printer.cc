@@ -136,6 +136,10 @@ void PrettyPrinter::print_expression(Expression* expr) {
     UnaryOperator* un = (UnaryOperator*) expr;
     Literal* literal = (Literal*) expr;
 
+    if (expr == nullptr) {
+        return;
+    }
+
     switch (expr->get_kind()) {
     case AST_ID:
         print_identifier((Identifier*) expr);
@@ -204,6 +208,10 @@ void PrettyPrinter::print_expression(Expression* expr) {
         print_call_expression((Call*) expr);
         break;
 
+    case EXPR_HASH_PAIR:
+        print_hash_pair_expression((HashPair*) expr);
+        break;
+
     case EXPR_LOGICAL_NOT:
         print_logical_not_expression(un);
         break;
@@ -269,6 +277,10 @@ void PrettyPrinter::print_expression(Expression* expr) {
         print_array_literal((ArrayLiteral*) expr);
         break;
 
+    case EXPR_LITERAL_HASH:
+        print_hash_literal((HashLiteral*) expr);
+        break;
+
     case EXPR_SEQUENCE:
         print_sequence_expression((Sequence*) expr);
         break;
@@ -293,6 +305,12 @@ void PrettyPrinter::print_index_expression(BinaryOperator* bin) {
 
     print_expression(bin->get_right());
     out << ']';
+}
+
+void PrettyPrinter::print_hash_pair_expression(HashPair* pair) {
+    print_expression(pair->get_left());
+    out << ": ";
+    print_expression(pair->get_right());
 }
 
 void PrettyPrinter::print_logical_not_expression(UnaryOperator* un) {
@@ -604,6 +622,10 @@ void PrettyPrinter::print_list_expression(ListLiteral* expr) {
 }
 
 void PrettyPrinter::print_array_literal(ArrayLiteral* expr) {
+    print_expression_list(expr->get_expressions(), "{", "}");
+}
+
+void PrettyPrinter::print_hash_literal(HashLiteral* expr) {
     print_expression_list(expr->get_expressions(), "{", "}");
 }
 

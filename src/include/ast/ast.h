@@ -81,6 +81,7 @@
 #include "ast/binary_operators/arrow.h"
 #include "ast/binary_operators/index.h"
 #include "ast/binary_operators/call.h"
+#include "ast/binary_operators/hash_pair.h"
 
 #include "ast/unary_operators/unary_operator.h"
 #include "ast/unary_operators/address_of.h"
@@ -111,6 +112,7 @@
 #include "ast/literals/string_literal.h"
 #include "ast/literals/list_literal.h"
 #include "ast/literals/array_literal.h"
+#include "ast/literals/hash_literal.h"
 #include "ast/literals/tuple_literal.h"
 
 #include "ast/sequence.h"

@@ -95,6 +95,7 @@ set(AST_BINOPS_SRC
     src/ast/binary_operators/arrow.cc
     src/ast/binary_operators/index.cc
     src/ast/binary_operators/call.cc
+    src/ast/binary_operators/hash_pair.cc
 )
 
 set(AST_LITERALS
@@ -106,6 +107,7 @@ set(AST_LITERALS
     src/ast/literals/string_literal.cc
     src/ast/literals/list_literal.cc
     src/ast/literals/array_literal.cc
+    src/ast/literals/hash_literal.cc
     src/ast/literals/tuple_literal.cc
 )
 
