@@ -15,12 +15,6 @@ This repository contains the source code for the first compiler
 of the language, which is being implemented in C++. It is still in
 development and can't produce a 'hello, world' yet.
 
-# Youtube
-
-The construction of the compiler is on youtube (only in portuguese)
-
-https://www.youtube.com/watch?v=OpA4NuTI_Kc&list=PLva7vXJ4ZjpGp358D_T6KNkMkGDez9fsd
-
 ## Install from source
 
 You need cmake to compile the project. The project uses only plain C++11, so
